@@ -7,6 +7,10 @@ namespace SharpCoding.SharpHelpers
 {
     public static class FileHelper
     {
+         /// <summary>
+         /// Given a file url, this method will safely delete the file
+         /// </summary>
+         /// <param name="fileUrl"></param>
          public static void SafeDelete(string fileUrl)
             {
                 if ((string.IsNullOrEmpty(fileUrl)) || (!File.Exists(fileUrl)))
@@ -15,7 +19,16 @@ namespace SharpCoding.SharpHelpers
                 if (!FileInUse(fileUrl)) File.Delete(fileUrl);
             }
 
-            public static void SafeMove(string fileUrl,string destUrl,FileOperationType mode=FileOperationType.None)
+        /// <summary>
+        /// This method move the specified file to the destination Url
+        /// Depending on mode parameter, if the file already exists in destination url
+        /// FileOperationType.None : The origin file will be deleted and the destination file will not be modified
+        /// FileOperationType.Delete : The origin file will overwrite the destination file
+        /// </summary>
+        /// <param name="fileUrl"></param>
+        /// <param name="destUrl"></param>
+        /// <param name="mode"></param>
+        public static void SafeMove(string fileUrl,string destUrl,FileOperationType mode=FileOperationType.None)
             {
                 if ((string.IsNullOrEmpty(fileUrl)) || (!File.Exists(fileUrl)))
                     return;
@@ -38,7 +51,11 @@ namespace SharpCoding.SharpHelpers
 
                 if (!FileInUse(fileUrl)) File.Move(fileUrl, destUrl);
             }
-
+        /// <summary>
+        /// The method returns the file lenght, if the file url is valid
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
             public static long GetFileLenght(this string url)
             {
                 if (string.IsNullOrEmpty(url)) return default(int);
@@ -49,6 +66,11 @@ namespace SharpCoding.SharpHelpers
                 return fi.Length;
             }
 
+        /// <summary>
+        /// The method returns true if the file is already in use and locked
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
             public static bool FileInUse(this string filePath)
             {
                 FileStream stream = null;
@@ -75,6 +97,11 @@ namespace SharpCoding.SharpHelpers
                 return false;
             }
 
+           /// <summary>
+           /// the method return true is the file is empty
+           /// </summary>
+           /// <param name="filePath"></param>
+           /// <returns></returns>
             public static bool FileIsEmpty(this string filePath)
             {
                 var length = new FileInfo(filePath).Length;
@@ -82,13 +109,19 @@ namespace SharpCoding.SharpHelpers
                 return length <= 0;
             }
 
-            public static IEnumerable<string> GetFiles(string sourceFolder, string filter )
+        /// <summary>
+        /// Given a folder path and a string containing filters splitted with | char, the method will return the paths of the files that match the specified filters
+        /// </summary>
+        /// <param name="sourceFolder"></param>
+        /// <param name="filters"></param>
+        /// <returns></returns>
+            public static IEnumerable<string> GetFiles(string sourceFolder, string filters )
             {
                 // ArrayList will hold all file names
                 var allFiles = new List<string>();
 
                 // Create an array of filter string
-                var multipleFilters = filter.Split('|');
+                var multipleFilters = filters.Split('|');
 
                 // for each filter find mathing file names
                 foreach (var fileFilter in multipleFilters)
