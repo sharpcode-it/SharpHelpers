@@ -40,21 +40,16 @@ namespace SharpCoding.SharpHelpers
         {
             return istance || op2;
         }
+        /// <summary>
+        /// This method maps the instance value in one of the two parameters
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static string ToStringValues(this bool? value, string trueValue, string falseValue)
+        {
+            return value.HasValue ? (value.Value ? trueValue : falseValue) : falseValue;
+        }
+       
         
-        public static string ToSI_NO(this bool? value)
-        {
-            return value.HasValue ? (value.Value ? "SI" : "NO") : "NO";
-        }
-
-        public static string ToS_N(this bool? value, string @default = "N")
-        {
-            return value.HasValue ? (value.Value ? "S" : "N") : @default;
-        }
-
-        public static bool BoolFromString(this string value)
-        {
-            return value != null &&
-                (value.Equals("s", StringComparison.InvariantCultureIgnoreCase) || value.Equals("si", StringComparison.InvariantCultureIgnoreCase));
-        }
     }
 }
