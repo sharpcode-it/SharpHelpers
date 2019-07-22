@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace SharpCoding.SharpHelpers
@@ -12,6 +15,11 @@ namespace SharpCoding.SharpHelpers
                 : toReplace.Aggregate(istance, (current, str) => current.Replace(str, replaceWith));
         }
 
+        /// <summary>
+        ///  This method clears string to avoid SQLInjection
+        /// </summary>
+        /// <param name="stringValue"></param>
+        /// <returns></returns>
         public static string SqlInjectionSanitize(this string stringValue)
         {
             if (null == stringValue)
@@ -23,7 +31,7 @@ namespace SharpCoding.SharpHelpers
                     string.Empty, RegexOptions.IgnoreCase).Trim();
         }
 
-        
+
         private static string RegexReplace(this string stringValue, string matchPattern, string toReplaceWith)
         {
             return Regex.Replace(stringValue, matchPattern, toReplaceWith);
@@ -34,65 +42,111 @@ namespace SharpCoding.SharpHelpers
             return Regex.Replace(stringValue, matchPattern, toReplaceWith, regexOptions);
         }
 
-    public static string StringCharRepeate(int count, string inputChr, int charRepeate)
+        /// <summary>
+        /// This method return the last substring after the string split 
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        public static string LastAfter(this string stringToSplit, char separator)
         {
-            if (inputChr.Length == 0)
-                return string.Empty;
-            return new string(inputChr[charRepeate], count);
+            return ((IEnumerable<string>)stringToSplit.Split(separator)).Last<string>();
         }
 
-        public static string LastAfter(this string s, char c )
+        /// <summary>
+        /// This method executes equals operation between two strings with no case sensitive 
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="comparand"></param>
+        /// <returns></returns>
+        public static bool IsDBEqual(this string s, string comparand)
         {
-            return ((IEnumerable<string>)s.Split(c)).Last<string>();
+            return string.Equals(s, comparand, StringComparison.OrdinalIgnoreCase);
         }
 
-        public static bool IsDB(string s, string comparand)
+        /// <summary>
+        /// This method executes not equals operation between two strings with no case sensitive 
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="comparand"></param>
+        /// <returns></returns>
+        public static bool IsNotDBEqual(this string s, string comparand)
         {
-            return string.Equals(s, comparand, StringComparison.Ordinal);
+            return !IsDBEqual(s, comparand);
         }
 
-        public static bool IsNotDB(string s, string comparand)
+        /// <summary>
+        /// Given a list of strings, the method check if the instance is contained in the collection, ignoring case
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="comparands"></param>
+        /// <returns></returns>
+        public static bool IsInDB(this string s, params string[] comparands)
         {
-            return ! IsDB( s, comparand);
+            return ((IEnumerable<string>)comparands).Any<string>((Func<string, bool>)(x => IsDBEqual(x, s)));
         }
 
-        public static bool IsInDB(string s, params string[] comparands)
+        /// <summary>
+        /// The method returns the substring of the instance
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="maxLength"></param>
+        /// <returns></returns>
+        public static string SafeSubstringByLength(this string s, int maxLength)
         {
-            return ((IEnumerable<string>)comparands).Any<string>((Func<string, bool>)(x => IsDB(x, s)));
-        }
-
-        public static string MaxLength(string s, int maxLength)
-        {
-            if (string.IsNullOrEmpty(s) || s.Length <= maxLength)
+            if (string.IsNullOrEmpty(s) || s.Length <= maxLength || maxLength <= 0)
                 return s;
             return s.Substring(0, maxLength);
-        }
 
-        public static string Truncate(string s, int maxLength)
+        }
+       /// <summary>
+       /// The method truncates the instance and check if the substring result is shorter than the original string
+       /// </summary>
+       /// <param name="s"></param>
+       /// <param name="maxLength"></param>
+       /// <param name="truncated"></param>
+       /// <returns></returns>
+        public static string Truncate(this string s, int maxLength, out bool truncated)
         {
-            string str = MaxLength(s, maxLength);
+            truncated = false;
+          
+            string str = SafeSubstringByLength(s, maxLength);
             int? length1 = str?.Length;
             int? length2 = s?.Length;
-            if (length1.GetValueOrDefault() == length2.GetValueOrDefault() & length1.HasValue == length2.HasValue)
+            if ((length1.GetValueOrDefault() == length2.GetValueOrDefault()))
                 return str;
-            return str + " ...TRUNCATED";
+            truncated = true;
+            return str;
         }
 
-
-        public static int? ToNullableInt(string s)
+        /// <summary>
+        /// The method parses the instance to a nullable int
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static int? ToNullableInt(this string s)
         {
             int result;
             if (int.TryParse(s, out result))
                 return new int?(result);
             return null;
         }
-
-        public static string ToBase64(string s)
+        /// <summary>
+        /// Convertion from string to base64
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static string ToBase64(this string s)
         {
             return Convert.ToBase64String(Encoding.Default.GetBytes(s), Base64FormattingOptions.None);
         }
 
-        public static string FromBase64(string s)
+        /// <summary>
+        /// Convertion from base64 to string
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static string FromBase64(this string s)
         {
             return Encoding.Default.GetString(Convert.FromBase64String(s));
         }
