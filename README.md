@@ -3,7 +3,7 @@
 SharpHelpers (SharpCoding Community Library)
 ===============================================
 
-[![GitHub license](https://img.shields.io/github/license/MarcosMeli/FileHelpers.svg)](https://github.com/sharpcode-it/SharpHelpers/blob/master/LICENSE)
+[![GitHub license](wiki/mit.svg)](https://github.com/sharpcode-it/SharpHelpers/blob/master/LICENSE)
 
 --------------------------------------
 ## What is this?
