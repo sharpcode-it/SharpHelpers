@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 
 namespace SharpCoding.SharpHelpers
@@ -152,36 +153,45 @@ namespace SharpCoding.SharpHelpers
         }
 
         /// <summary>
-		/// Returns a string from the left side with a fixed length of characters
-		/// </summary>
-		/// <param name="str"></param>
-		/// <param name="length">The number of characters </param>
-		public static string Left(string str, int len)
+	/// Returns a string from the left side with a fixed length of characters
+	/// </summary>
+	/// <param name="str"></param>
+	/// <param name="length">The number of characters </param>
+	public static string Left(string str, int length)
+	{
+		if (length == 0 || str.Length == 0) return string.Empty;
+		string result = str;
+		if (length < str.Length)
 		{
-			if (length == 0 || str.Length == 0) return string.Empty;
-			string result = str;
-			if (length < str.Length)
-			{
-				result = str.Substring(0, length);
-			}
-			return result;
+			result = str.Substring(0, length);
 		}
+		return result;
+	}
 
-		/// <summary>
-		/// Returns a string from the right side with a fixed length of characters
-		/// </summary>
-		/// <param name="str"></param>
-		///<param name="length">The number of characters </param>
-		public static string Right(string str, int length)
+	/// <summary>
+	/// Returns a string from the right side with a fixed length of characters
+	/// </summary>
+	/// <param name="str"></param>
+	///<param name="length">The number of characters </param>
+	public static string Right(string str, int length)
+	{
+		if (length == 0 || str.Length == 0) return string.Empty;
+		string result = str;
+		if (length < str.Length)
 		{
-			if (length == 0 || str.Length == 0) return string.Empty;
-			string result = inputStr;
-			if (length < str.Length)
-			{
-				result = str.Substring(str.Length - length);
-			}
-			return result;
+			result = str.Substring(str.Length - length);
 		}
+		return result;
+	}
+	/// <summary>
+	/// Returns a object from Json
+	/// </summary>
+	/// <param name="strJson"></param>
+	 public static T JsonToObject<T>(this string strJson)
+	 {
+	 return JsonConvert.DeserializeObject<T>(strJson,  
+						 new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+         }
 
 
     }
