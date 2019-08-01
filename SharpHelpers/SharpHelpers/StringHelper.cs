@@ -151,5 +151,38 @@ namespace SharpCoding.SharpHelpers
             return Encoding.Default.GetString(Convert.FromBase64String(s));
         }
 
+        /// <summary>
+		/// Returns a string from the left side with a fixed length of characters
+		/// </summary>
+		/// <param name="str"></param>
+		/// <param name="length">The number of characters </param>
+		public static string Left(string str, int len)
+		{
+			if (length == 0 || str.Length == 0) return string.Empty;
+			string result = str;
+			if (length < str.Length)
+			{
+				result = str.Substring(0, length);
+			}
+			return result;
+		}
+
+		/// <summary>
+		/// Returns a string from the right side with a fixed length of characters
+		/// </summary>
+		/// <param name="str"></param>
+		///<param name="length">The number of characters </param>
+		public static string Right(string str, int length)
+		{
+			if (length == 0 || str.Length == 0) return string.Empty;
+			string result = inputStr;
+			if (length < str.Length)
+			{
+				result = str.Substring(str.Length - length);
+			}
+			return result;
+		}
+
+
     }
 }
