@@ -3,7 +3,7 @@
 SharpHelpers (SharpCoding Community Library)
 ===============================================
 
-[![Github license](https://github.com/sharpcode-it/SharpHelpers/edit/master/mit.svg)](https://github.com/sharpcode-it/SharpHelpers/blob/master/LICENSE)
+[![Github license](mit.svg)](https://github.com/sharpcode-it/SharpHelpers/blob/master/LICENSE)
 --------------------------------------
 --------------------------------------
 ## What is this?
