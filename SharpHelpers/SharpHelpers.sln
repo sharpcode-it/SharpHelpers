@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29020.237
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpHelpers", "SharpHelpers\SharpHelpers.csproj", "{0B9C8349-C268-46BE-85C7-CBBF125C120B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpHelpers", "SharpHelpers\SharpHelpers.csproj", "{0B9C8349-C268-46BE-85C7-CBBF125C120B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpHelpers.UnitTest", "SharpHelpers.UnitTest\SharpHelpers.UnitTest.csproj", "{C710CF35-11A0-4BF8-9DF2-52CD89AB7721}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{0B9C8349-C268-46BE-85C7-CBBF125C120B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B9C8349-C268-46BE-85C7-CBBF125C120B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B9C8349-C268-46BE-85C7-CBBF125C120B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C710CF35-11A0-4BF8-9DF2-52CD89AB7721}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C710CF35-11A0-4BF8-9DF2-52CD89AB7721}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C710CF35-11A0-4BF8-9DF2-52CD89AB7721}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C710CF35-11A0-4BF8-9DF2-52CD89AB7721}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
