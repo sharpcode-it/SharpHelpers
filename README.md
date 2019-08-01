@@ -4,7 +4,6 @@ SharpHelpers (SharpCoding Community Library)
 ===============================================
 
 [![GitHub license](https://img.shields.io/github/license/MarcosMeli/FileHelpers.svg)](https://github.com/sharpcode-it/SharpHelpers/blob/master/LICENSE)
-[![NuGet](https://img.shields.io/nuget/vpre/FileHelpers.svg)](https://github.com/sharpcodingIT/SharpHelpers) [![NuGet](https://img.shields.io/nuget/dt/FileHelpers.svg)](https://github.com/sharpcodingIT/SharpHelpers)
 
 --------------------------------------
 ## What is this?
