@@ -26,6 +26,8 @@ The project contains several helpers for the manipulation and management of diff
 - Numeric
 - Registry
 - String
+- List
+- Stream
 	
 --------------------------------------
 ## Contributing
