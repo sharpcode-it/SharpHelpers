@@ -157,7 +157,7 @@ namespace SharpCoding.SharpHelpers
 	/// </summary>
 	/// <param name="str"></param>
 	/// <param name="length">The number of characters </param>
-	public static string Left(string str, int length)
+	public static string Left(this string str, int length)
 	{
 		if (length == 0 || str.Length == 0) return string.Empty;
 		string result = str;
@@ -173,7 +173,7 @@ namespace SharpCoding.SharpHelpers
 	/// </summary>
 	/// <param name="str"></param>
 	///<param name="length">The number of characters </param>
-	public static string Right(string str, int length)
+	public static string Right(this string str, int length)
 	{
 		if (length == 0 || str.Length == 0) return string.Empty;
 		string result = str;
