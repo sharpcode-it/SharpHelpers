@@ -46,23 +46,23 @@ namespace SharpCoding.SharpHelpers
         /// <summary>
         /// This method return the last substring after the string split 
         /// </summary>
-        /// <param name="s"></param>
-        /// <param name="c"></param>
+        /// <param name="str"></param>
+        /// <param name="separator">separator character</param>
         /// <returns></returns>
-        public static string LastAfter(this string stringToSplit, char separator)
+        public static string LastAfter(this string str, char separator)
         {
-            return ((IEnumerable<string>)stringToSplit.Split(separator)).Last<string>();
+            return ((IEnumerable<string>)str.Split(separator)).Last<string>();
         }
 
         /// <summary>
         /// This method executes equals operation between two strings with no case sensitive 
         /// </summary>
-        /// <param name="s"></param>
+        /// <param name="str"></param>
         /// <param name="comparand"></param>
         /// <returns></returns>
-        public static bool IsDBEqual(this string s, string comparand)
+        public static bool IsDBEqual(this string str, string comparand)
         {
-            return string.Equals(s, comparand, StringComparison.OrdinalIgnoreCase);
+            return string.Equals(str, comparand, StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>
@@ -104,32 +104,32 @@ namespace SharpCoding.SharpHelpers
         /// <summary>
         /// The method truncates the instance and check if the substring result is shorter than the original string
         /// </summary>
-        /// <param name="s"></param>
+        /// <param name="str"></param>
         /// <param name="maxLength"></param>
         /// <param name="truncated"></param>
         /// <returns></returns>
-        public static string Truncate(this string s, int maxLength, out bool truncated)
+        public static string Truncate(this string str, int maxLength, out bool truncated)
         {
             truncated = false;
 
-            string str = SafeSubstringByLength(s, maxLength);
-            int? length1 = str?.Length;
-            int? length2 = s?.Length;
+            string substr = SafeSubstringByLength(str, maxLength);
+            int? length1 = substr?.Length;
+            int? length2 = str?.Length;
             if ((length1.GetValueOrDefault() == length2.GetValueOrDefault()))
-                return str;
+                return substr;
             truncated = true;
-            return str;
+            return substr;
         }
 
         /// <summary>
         /// The method parses the instance to a nullable int
         /// </summary>
-        /// <param name="s"></param>
+        /// <param name="str"></param>
         /// <returns></returns>
-        public static int? ToNullableInt(this string s)
+        public static int? ToNullableInt(this string str)
         {
             int result;
-            if (int.TryParse(s, out result))
+            if (int.TryParse(str, out result))
                 return new int?(result);
             return null;
         }
@@ -137,21 +137,21 @@ namespace SharpCoding.SharpHelpers
         /// <summary>
         /// Convertion from string to base64
         /// </summary>
-        /// <param name="s"></param>
+        /// <param name="str"></param>
         /// <returns></returns>
-        public static string ToBase64(this string s)
+        public static string ToBase64(this string str)
         {
-            return Convert.ToBase64String(Encoding.Default.GetBytes(s), Base64FormattingOptions.None);
+            return Convert.ToBase64String(Encoding.Default.GetBytes(str), Base64FormattingOptions.None);
         }
 
         /// <summary>
         /// Convertion from base64 to string
         /// </summary>
-        /// <param name="s"></param>
+        /// <param name="str"></param>
         /// <returns></returns>
-        public static string FromBase64(this string s)
+        public static string FromBase64(this string str)
         {
-            return Encoding.Default.GetString(Convert.FromBase64String(s));
+            return Encoding.Default.GetString(Convert.FromBase64String(str));
         }
 
         /// <summary>
