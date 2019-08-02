@@ -1,8 +1,6 @@
 # SharpHelpers (SharpCoding Community Library)
---------------------------------------
 [![Github license](mit.svg)](https://github.com/sharpcode-it/SharpHelpers/blob/master/LICENSE)
 --------------------------------------
-
 ## What is this?
 
 SharpHelpers is a collections of some handy code packages and tutorials to make developer's life easier.
