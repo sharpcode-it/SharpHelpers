@@ -1,6 +1,5 @@
 # SharpHelpers (SharpCoding Community Library)
 --------------------------------------
-
 [![Github license](mit.svg)](https://github.com/sharpcode-it/SharpHelpers/blob/master/LICENSE)
 --------------------------------------
 
