@@ -154,30 +154,54 @@ namespace SharpHelpers.UnitTest.String
         public void TestJsonToObject()
         {
             var instance = "{\"glossary\": {\"title\": \"example glossary\",\"GlossDiv\": {\"title\": \"S\",\"GlossList\": { \"GlossEntry\": {\"ID\": \"SGML\",\"SortAs\": \"SGML\",\"GlossTerm\": \"Standard Generalized Markup Language\",\"Acronym\": \"SGML\",\"Abbrev\": \"ISO 8879:1986\",\"GlossDef\": {\"para\": \"A meta-markup language, used to create markup languages such as DocBook.\",\"GlossSeeAlso\": [\"GML\", \"XML\"]},\"GlossSee\": \"markup\"}}}}}";
-           
+
             var result = instance.JsonToObject<RootObject>();
             Assert.IsNotNull(result);
-          
+
         }
 
-  
+
+        [TestMethod]
+        public void TestIsEmail()
+        {
+            var instance = "name_surname@email.com";
+            var result = instance.IsEmail();
+            Assert.AreEqual(true, result);
+        }
+
+        [TestMethod]
+        public void TestIsNumber()
+        {
+            var instance = "11.2";
+            var result = instance.IsNumber();
+            Assert.AreEqual(true, result);
+        }
+
+        [TestMethod]
+        public void TestIsGuid()
+        {
+            var instance = "066aecf6-8608-4b46-80e6-275a05595ad6";
+            var result = instance.IsGuid();
+            Assert.AreEqual(true, result);
+        }
+
+
+
+        [TestMethod]
+        public void TestWordCount()
+        {
+            var instance = "Man is distinguished, not only by his reason, but by this singular passion " +
+                "from other animals, which is a lust of the mind, that by a perseverance of delight" +
+                " in the continued and indefatigable generation of knowledge, exceeds the short " +
+                "vehemence of any carnal pleasure.";
+            var result = instance.WordCount("generation");
+            Assert.AreEqual(1, result);
+        }
         
 
 
 
 
-
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         #region Json Class
         public class GlossDef
         {

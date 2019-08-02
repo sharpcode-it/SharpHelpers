@@ -100,17 +100,17 @@ namespace SharpCoding.SharpHelpers
             return s.Substring(0, maxLength);
 
         }
-       /// <summary>
-       /// The method truncates the instance and check if the substring result is shorter than the original string
-       /// </summary>
-       /// <param name="s"></param>
-       /// <param name="maxLength"></param>
-       /// <param name="truncated"></param>
-       /// <returns></returns>
+        /// <summary>
+        /// The method truncates the instance and check if the substring result is shorter than the original string
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="maxLength"></param>
+        /// <param name="truncated"></param>
+        /// <returns></returns>
         public static string Truncate(this string s, int maxLength, out bool truncated)
         {
             truncated = false;
-          
+
             string str = SafeSubstringByLength(s, maxLength);
             int? length1 = str?.Length;
             int? length2 = s?.Length;
@@ -153,46 +153,86 @@ namespace SharpCoding.SharpHelpers
         }
 
         /// <summary>
-	/// Returns a string from the left side with a fixed length of characters
-	/// </summary>
-	/// <param name="str"></param>
-	/// <param name="length">The number of characters </param>
-	public static string Left(this string str, int length)
-	{
-		if (length == 0 || str.Length == 0) return string.Empty;
-		string result = str;
-		if (length < str.Length)
-		{
-			result = str.Substring(0, length);
-		}
-		return result;
-	}
+        /// Returns a string from the left side with a fixed length of characters
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="length">The number of characters </param>
+        public static string Left(this string str, int length)
+        {
+            if (length == 0 || str.Length == 0) return string.Empty;
+            string result = str;
+            if (length < str.Length)
+            {
+                result = str.Substring(0, length);
+            }
+            return result;
+        }
 
-	/// <summary>
-	/// Returns a string from the right side with a fixed length of characters
-	/// </summary>
-	/// <param name="str"></param>
-	///<param name="length">The number of characters </param>
-	public static string Right(this string str, int length)
-	{
-		if (length == 0 || str.Length == 0) return string.Empty;
-		string result = str;
-		if (length < str.Length)
-		{
-			result = str.Substring(str.Length - length);
-		}
-		return result;
-	}
-	/// <summary>
-	/// Returns a object from Json
-	/// </summary>
-	/// <param name="strJson"></param>
-	 public static T JsonToObject<T>(this string strJson)
-	 {
-	 return JsonConvert.DeserializeObject<T>(strJson,  
-						 new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
-         }
+        /// <summary>
+        /// Returns a string from the right side with a fixed length of characters
+        /// </summary>
+        /// <param name="str"></param>
+        ///<param name="length">The number of characters </param>
+        public static string Right(this string str, int length)
+        {
+            if (length == 0 || str.Length == 0) return string.Empty;
+            string result = str;
+            if (length < str.Length)
+            {
+                result = str.Substring(str.Length - length);
+            }
+            return result;
+        }
+        /// <summary>
+        /// Returns a object from Json
+        /// </summary>
+        /// <param name="strJson"></param>
+        public static T JsonToObject<T>(this string strJson)
+        {
+            return JsonConvert.DeserializeObject<T>(strJson,
+                                new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+        }
+
+        /// <summary>
+        /// Returns true if the stirng is in the email address 
+        /// </summary>
+        /// <param name="str"></param>
+        public static bool IsEmail(this string str)
+        {
+            return Regex.Match(str,
+                @"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$",
+                RegexOptions.IgnoreCase).Success;
+        }
+
+        /// <summary>
+        /// Returns true if the string is a numeric 
+        /// </summary>
+        /// <param name="str"></param>
+        public static bool IsNumber(this string str)
+        {
+            return Regex.Match(str, @"^[0-9]\d{0,9}((\.|\,)\d{1,3})?%?$", RegexOptions.IgnoreCase).Success;
+        }
+        /// <summary>
+        /// Returns true if the string is a Guid 
+        /// </summary>
+        /// <param name="str"></param>
+        public static bool IsGuid(this string str)
+        {
+            return Regex.Match(str,
+                @"^[A-Fa-f0-9]{32}$|" +
+                "^({|\\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(}|\\))?$|" +
+                "^({)?[0xA-Fa-f0-9]{3,10}(, {0,1}[0xA-Fa-f0-9]{3,6}){2}, {0,1}({)([0xA-Fa-f0-9]{3,4}, {0,1}){7}[0xA-Fa-f0-9]{3,4}(}})$",
+                RegexOptions.IgnoreCase).Success;
+        }
+        /// <summary>
+        /// Count the specific word in a given string
+        /// </summary>
+        /// <param name="str"></param>
+        public static int WordCount(this string str, string word)
+        {
+            return str.Contains(word) ? new Regex(word).Matches(str).Count : 0;
 
 
+        }
     }
 }
