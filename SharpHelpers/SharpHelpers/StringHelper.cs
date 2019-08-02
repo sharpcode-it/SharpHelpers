@@ -100,6 +100,7 @@ namespace SharpCoding.SharpHelpers
             return s.Substring(0, maxLength);
 
         }
+
         /// <summary>
         /// The method truncates the instance and check if the substring result is shorter than the original string
         /// </summary>
@@ -132,6 +133,7 @@ namespace SharpCoding.SharpHelpers
                 return new int?(result);
             return null;
         }
+
         /// <summary>
         /// Convertion from string to base64
         /// </summary>
@@ -183,6 +185,7 @@ namespace SharpCoding.SharpHelpers
             }
             return result;
         }
+
         /// <summary>
         /// Returns a object from Json
         /// </summary>
@@ -212,6 +215,7 @@ namespace SharpCoding.SharpHelpers
         {
             return Regex.Match(str, @"^[0-9]\d{0,9}((\.|\,)\d{1,3})?%?$", RegexOptions.IgnoreCase).Success;
         }
+
         /// <summary>
         /// Returns true if the string is a Guid 
         /// </summary>
@@ -224,6 +228,7 @@ namespace SharpCoding.SharpHelpers
                 "^({)?[0xA-Fa-f0-9]{3,10}(, {0,1}[0xA-Fa-f0-9]{3,6}){2}, {0,1}({)([0xA-Fa-f0-9]{3,4}, {0,1}){7}[0xA-Fa-f0-9]{3,4}(}})$",
                 RegexOptions.IgnoreCase).Success;
         }
+
         /// <summary>
         /// Count the specific word in a given string
         /// </summary>
@@ -231,8 +236,6 @@ namespace SharpCoding.SharpHelpers
         public static int WordCount(this string str, string word)
         {
             return str.Contains(word) ? new Regex(word).Matches(str).Count : 0;
-
-
         }
     }
 }
