@@ -26,13 +26,13 @@ namespace SharpCoding.SharpHelpers
         {
             if (istance == null) return null;
 
-            using (var memoryStream = new System.IO.MemoryStream(istance))
+            using (var memoryStream = new MemoryStream(istance))
             {
-                var binaryFormatter
-                    = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                var binaryFormatter = new BinaryFormatter();
                 return binaryFormatter.Deserialize(memoryStream);
             }
         }
+
         /// <summary>
         /// Given an object, this method returns a byte array
         /// </summary>
@@ -44,10 +44,8 @@ namespace SharpCoding.SharpHelpers
 
             using (var memoryStream = new MemoryStream())
             {
-                var binaryFormatter
-                    = new BinaryFormatter();
+                var binaryFormatter = new BinaryFormatter();
                 binaryFormatter.Serialize(memoryStream, value);
-
                 return memoryStream.ToArray();
             }
         }

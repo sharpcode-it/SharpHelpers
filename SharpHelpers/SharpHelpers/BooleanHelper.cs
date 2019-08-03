@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace SharpCoding.SharpHelpers
+﻿namespace SharpCoding.SharpHelpers
 {
     public static class BooleanHelper
     {
@@ -40,6 +35,7 @@ namespace SharpCoding.SharpHelpers
         {
             return istance || op2;
         }
+
         /// <summary>
         /// This method maps the instance value in one of the two parameters
         /// </summary>
@@ -49,7 +45,5 @@ namespace SharpCoding.SharpHelpers
         {
             return value.HasValue ? (value.Value ? trueValue : falseValue) : falseValue;
         }
-       
-        
     }
 }

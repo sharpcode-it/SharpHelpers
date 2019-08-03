@@ -115,7 +115,7 @@ namespace SharpCoding.SharpHelpers
             string substr = SafeSubstringByLength(str, maxLength);
             int? length1 = substr?.Length;
             int? length2 = str?.Length;
-            if ((length1.GetValueOrDefault() == length2.GetValueOrDefault()))
+            if (length1.GetValueOrDefault() == length2.GetValueOrDefault())
                 return substr;
             truncated = true;
             return substr;
@@ -128,8 +128,7 @@ namespace SharpCoding.SharpHelpers
         /// <returns></returns>
         public static int? ToNullableInt(this string str)
         {
-            int result;
-            if (int.TryParse(str, out result))
+            if (int.TryParse(str, out var result))
                 return new int?(result);
             return null;
         }

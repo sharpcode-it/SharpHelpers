@@ -14,8 +14,10 @@ namespace SharpCoding.SharpHelpers
         public static string ToString(this Stream stream)
         {
             if (stream == null) throw new ArgumentNullException(nameof(stream));
-            var reader = new StreamReader(stream);
-            return reader.ReadToEnd();
+            using (var reader = new StreamReader(stream))
+            {
+                return reader.ReadToEnd();
+            }
         }
 
         /// <summary>
@@ -23,8 +25,9 @@ namespace SharpCoding.SharpHelpers
         /// </summary>
         /// <param name="stream"></param>
         /// <returns></returns>
-        public static Stream ConvertToBase64(this Stream stream)
+        public static Stream ToBase64(this Stream stream)
         {
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
             byte[] bytes;
             using (var memoryStream = new MemoryStream())
             {
@@ -33,6 +36,36 @@ namespace SharpCoding.SharpHelpers
             }
             var base64 = Convert.ToBase64String(bytes);
             return new MemoryStream(Encoding.UTF8.GetBytes(base64));
+        }
+
+        /// <summary>
+        /// This method returns a byte array from a stream
+        /// </summary>
+        /// <returns>The byte array.</returns>
+        /// <param name="stream">Input.</param>
+        public static byte[] ToByteArray(this Stream stream)
+        {
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                stream.CopyTo(memoryStream);
+                return memoryStream.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// This method returns a MemoryStream from stream
+        /// </summary>
+        /// <returns>The memory stream.</returns>
+        /// <param name="stream">Stream.</param>
+        public static MemoryStream ToMemoryStream(this Stream stream)
+        {
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                stream.CopyTo(memoryStream);
+                return memoryStream;
+            }
         }
     }
 }
