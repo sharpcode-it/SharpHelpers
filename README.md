@@ -23,6 +23,7 @@ The project contains several helpers for the manipulation and management of diff
 - String
 - List
 - Stream
+- Object
 	
 --------------------------------------
 ## Contributing
