@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SharpCoding.SharpHelpers.ObjectExtensions
 {
@@ -68,10 +70,9 @@ namespace SharpCoding.SharpHelpers.ObjectExtensions
 
         private static object ToObject(this byte[] istance)
         {
-            using (var memoryStream = new System.IO.MemoryStream(istance))
+            using (var memoryStream = new MemoryStream(istance))
             {
-                var binaryFormatter
-                    = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                var binaryFormatter = new BinaryFormatter();
                 
                 return binaryFormatter.Deserialize(memoryStream);
             }
@@ -101,5 +102,21 @@ namespace SharpCoding.SharpHelpers.ObjectExtensions
             return rtn.PadLeft(5, '0');
         }
 
+        /// <summary>
+        /// This method returns the byte array of the specific object
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static byte[] ToByteArray(this object obj)
+        {
+            if (obj == null) return null;
+
+            var binaryFormatter = new BinaryFormatter();
+            using (var memoryStream = new MemoryStream())
+            {
+                binaryFormatter.Serialize(memoryStream, obj);
+                return memoryStream.ToArray();
+            }
+        }
     }
 }

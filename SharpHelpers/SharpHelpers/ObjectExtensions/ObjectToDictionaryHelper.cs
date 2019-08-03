@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
 
 namespace SharpCoding.SharpHelpers.ObjectExtensions
 {
     public static class ObjectToDictionaryHelper
     {
+        /// <summary>
+        /// This method maps the object to dictionary
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
         public static IDictionary<string, object> ToDictionary(this object source)
         {
             var dictionary = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
@@ -25,6 +28,11 @@ namespace SharpCoding.SharpHelpers.ObjectExtensions
             return dictionary;
         }
 
+        /// <summary>
+        /// This method maps the collection to dictionary
+        /// </summary>
+        /// <param name="nvc"></param>
+        /// <returns></returns>
         public static IDictionary<string, string> ToDictionary(this NameValueCollection nvc)
         {
             if ((nvc == null) || !nvc.AllKeys.Any()) return new Dictionary<string, string>();
