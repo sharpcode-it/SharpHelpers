@@ -1,8 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\build\version.props" />
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>SharpCoding.SharpHelpers</RootNamespace>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>SharpHelpers.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
