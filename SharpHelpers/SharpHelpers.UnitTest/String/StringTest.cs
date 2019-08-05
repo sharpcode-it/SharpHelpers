@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpCoding.SharpHelpers;
 using System.Collections.Generic;
+using static SharpHelpers.UnitTest.TestClass.JsonClassTest;
 
 namespace SharpHelpers.UnitTest.String
 {
@@ -185,8 +186,6 @@ namespace SharpHelpers.UnitTest.String
             Assert.AreEqual(true, result);
         }
 
-
-
         [TestMethod]
         public void TestWordCount()
         {
@@ -197,51 +196,27 @@ namespace SharpHelpers.UnitTest.String
             var result = instance.WordCount("generation");
             Assert.AreEqual(1, result);
         }
+
+        [TestMethod]
+        public void TestCodiceFiscale()
+        {
+            var instance = "MRARSS02A05L219I";
+            var result = instance.IsValidCodiceFiscle();
+            Assert.AreEqual(true, result);
+        }
+
+        [TestMethod]
+        public void TestValidIban()
+        {
+            var instance = "DE89370400440532013000";
+            var result = instance.IsValidIban();
+            Assert.AreEqual(true, result);
+            instance = "IT60X0542811101000000123456";
+            result = instance.IsValidIban();
+            Assert.AreEqual(true, result);
+
+        }
+
         
-
-
-
-
-        #region Json Class
-        public class GlossDef
-        {
-            public string para { get; set; }
-            public List<string> GlossSeeAlso { get; set; }
-        }
-
-        public class GlossEntry
-        {
-            public string ID { get; set; }
-            public string SortAs { get; set; }
-            public string GlossTerm { get; set; }
-            public string Acronym { get; set; }
-            public string Abbrev { get; set; }
-            public GlossDef GlossDef { get; set; }
-            public string GlossSee { get; set; }
-        }
-
-        public class GlossList
-        {
-            public GlossEntry GlossEntry { get; set; }
-        }
-
-        public class GlossDiv
-        {
-            public string title { get; set; }
-            public GlossList GlossList { get; set; }
-        }
-
-        public class Glossary
-        {
-            public string title { get; set; }
-            public GlossDiv GlossDiv { get; set; }
-        }
-
-        public class RootObject
-        {
-            public Glossary glossary { get; set; }
-        }
-        #endregion
-
     }
 }

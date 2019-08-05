@@ -196,7 +196,7 @@ namespace SharpCoding.SharpHelpers
         }
 
         /// <summary>
-        /// Returns true if the stirng is in the email address 
+        /// Returns true if the string is in the email address 
         /// </summary>
         /// <param name="str"></param>
         public static bool IsEmail(this string str)
@@ -236,5 +236,29 @@ namespace SharpCoding.SharpHelpers
         {
             return str.Contains(word) ? new Regex(word).Matches(str).Count : 0;
         }
+
+        /// <summary>
+        /// Returns true if the string is a tax code
+        /// </summary>
+        /// <param name="str"></param>
+        public static bool IsValidCodiceFiscle(this string str)
+        {
+            return Regex.Match(str,
+                @"^(?:[A-Z][AEIOU][AEIOUX]|[B-DF-HJ-NP-TV-Z]{2}[A-Z]){2}(?:[\dLMNP-V]{2}(?:[A-EHLMPR-T](?:[04LQ][1-9MNP-V]|[15MR][\dLMNP-V]|[26NS][0-8LMNP-U])|[DHPS][37PT][0L]|[ACELMRT][37PT][01LM]|[AC-EHLMPR-T][26NS][9V])|(?:[02468LNQSU][048LQU]|[13579MPRTV][26NS])B[26NS][9V])(?:[A-MZ][1-9MNP-V][\dLMNP-V]{2}|[A-M][0L](?:[1-9MNP-V][\dLMNP-V]|[0L][1-9MNP-V]))[A-Z]$",
+                RegexOptions.IgnoreCase).Success;
+        }
+
+        /// <summary>
+        /// Returns true if the string is a iban
+        /// </summary>
+        /// <param name="str"></param>
+        public static bool IsValidIban(this string str)
+        {
+            return Regex.Match(str,
+                @"[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}",
+                RegexOptions.IgnoreCase).Success;
+        }
+
+
     }
 }
