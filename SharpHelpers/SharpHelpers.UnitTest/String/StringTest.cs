@@ -216,7 +216,13 @@ namespace SharpHelpers.UnitTest.String
             Assert.AreEqual(true, result);
 
         }
+        [TestMethod]
+        public void TestValidUrl()
+        {
+            var instance = "https://www.google.com/";
+            var result = instance.IsValidUrl();
+            Assert.AreEqual(true, result);
+        }
 
-        
     }
 }

@@ -258,7 +258,17 @@ namespace SharpCoding.SharpHelpers
                 @"[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}",
                 RegexOptions.IgnoreCase).Success;
         }
+        /// <summary>
+        /// Returns true if the string is a url path
+        /// </summary>
+        /// <param name="str"></param>
+        public static bool IsValidUrl(this string str)
+        {
+            return Regex.Match(str,
+                @"http(s)?://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?",
+                RegexOptions.IgnoreCase).Success;
 
+        }
 
     }
 }
