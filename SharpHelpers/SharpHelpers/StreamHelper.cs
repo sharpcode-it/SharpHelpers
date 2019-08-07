@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 
 namespace SharpCoding.SharpHelpers
@@ -56,7 +58,7 @@ namespace SharpCoding.SharpHelpers
         }
 
         /// <summary>
-        /// This method returns a MemoryStream from stream
+        /// This method returns a MemoryStream from a stream
         /// </summary>
         /// <returns>The memory stream.</returns>
         /// <param name="stream">Stream.</param>
@@ -68,6 +70,20 @@ namespace SharpCoding.SharpHelpers
                 stream.CopyTo(memoryStream);
                 return memoryStream;
             }
+        }
+
+        /// <summary>
+        /// This method returns an object from a stream
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        public static T ToObject<T>(this Stream stream) where T : class
+        {
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
+            var formatter = new BinaryFormatter();
+            stream.Seek(0, SeekOrigin.Begin);
+            return (T)formatter.Deserialize(stream);            
         }
     }
 }
