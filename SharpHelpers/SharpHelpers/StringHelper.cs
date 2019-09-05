@@ -1,4 +1,6 @@
-﻿using System;
+// (c) 2019 SharpCoding
+// This code is licensed under MIT license (see LICENSE.txt for details)
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,8 +9,6 @@ using System.Text.RegularExpressions;
 
 namespace SharpCoding.SharpHelpers
 {
-    // (c) 2019 SharpCoding
-    // This code is licensed under MIT license (see LICENSE.txt for details)
     public static class StringHelper
     {
         public static string Replace(this string istance, string[] toReplace, string replaceWith)
