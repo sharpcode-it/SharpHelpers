@@ -1,11 +1,11 @@
-﻿using System;
+// (c) 2019 SharpCoding
+// This code is licensed under MIT license (see LICENSE.txt for details)
+using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SharpCoding.SharpHelpers.ObjectExtensions
 {
-    // (c) 2019 SharpCoding
-    // This code is licensed under MIT license (see LICENSE.txt for details)
     public static class ObjectConverterHelper
     {
         #region Convert to int [Int32]
