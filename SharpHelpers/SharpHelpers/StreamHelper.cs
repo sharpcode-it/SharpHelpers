@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 
@@ -50,7 +49,7 @@ namespace SharpCoding.SharpHelpers
         public static byte[] ToByteArray(this Stream stream)
         {
             if (stream == null) throw new ArgumentNullException(nameof(stream));
-            using (MemoryStream memoryStream = new MemoryStream())
+            using (var memoryStream = new MemoryStream())
             {
                 stream.CopyTo(memoryStream);
                 return memoryStream.ToArray();
@@ -65,7 +64,7 @@ namespace SharpCoding.SharpHelpers
         public static MemoryStream ToMemoryStream(this Stream stream)
         {
             if (stream == null) throw new ArgumentNullException(nameof(stream));
-            using (MemoryStream memoryStream = new MemoryStream())
+            using (var memoryStream = new MemoryStream())
             {
                 stream.CopyTo(memoryStream);
                 return memoryStream;

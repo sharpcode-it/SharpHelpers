@@ -30,6 +30,7 @@ namespace SharpCoding.SharpHelpers
         /// <returns></returns>
         public static IEnumerable<T> DistinctBy<T>(this List<T> list)
         {
+            if (list == null) throw new ArgumentNullException(nameof(list));
             return list
                 .GroupBy(x => x)
                 .Select(x => x.First());

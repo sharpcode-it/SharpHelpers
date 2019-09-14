@@ -62,7 +62,7 @@ namespace SharpCoding.SharpHelpers
         /// <param name="str"></param>
         /// <param name="comparand"></param>
         /// <returns></returns>
-        public static bool IsDBEqual(this string str, string comparand)
+        public static bool IsDbEqual(this string str, string comparand)
         {
             return string.Equals(str, comparand, StringComparison.OrdinalIgnoreCase);
         }
@@ -73,9 +73,9 @@ namespace SharpCoding.SharpHelpers
         /// <param name="s"></param>
         /// <param name="comparand"></param>
         /// <returns></returns>
-        public static bool IsNotDBEqual(this string s, string comparand)
+        public static bool IsNotDbEqual(this string s, string comparand)
         {
-            return !IsDBEqual(s, comparand);
+            return !IsDbEqual(s, comparand);
         }
 
         /// <summary>
@@ -84,9 +84,9 @@ namespace SharpCoding.SharpHelpers
         /// <param name="s"></param>
         /// <param name="comparands"></param>
         /// <returns></returns>
-        public static bool IsInDB(this string s, params string[] comparands)
+        public static bool IsInDb(this string s, params string[] comparands)
         {
-            return ((IEnumerable<string>)comparands).Any<string>((Func<string, bool>)(x => IsDBEqual(x, s)));
+            return comparands.Any<string>(x => IsDbEqual(x, s));
         }
 
         /// <summary>
@@ -100,7 +100,6 @@ namespace SharpCoding.SharpHelpers
             if (string.IsNullOrEmpty(s) || s.Length <= maxLength || maxLength <= 0)
                 return s;
             return s.Substring(0, maxLength);
-
         }
 
         /// <summary>
@@ -113,10 +112,9 @@ namespace SharpCoding.SharpHelpers
         public static string Truncate(this string str, int maxLength, out bool truncated)
         {
             truncated = false;
-
-            string substr = SafeSubstringByLength(str, maxLength);
-            int? length1 = substr?.Length;
-            int? length2 = str?.Length;
+            var substr = SafeSubstringByLength(str, maxLength);
+            var length1 = substr?.Length;
+            var length2 = str?.Length;
             if (length1.GetValueOrDefault() == length2.GetValueOrDefault())
                 return substr;
             truncated = true;
@@ -130,13 +128,11 @@ namespace SharpCoding.SharpHelpers
         /// <returns></returns>
         public static int? ToNullableInt(this string str)
         {
-            if (int.TryParse(str, out var result))
-                return new int?(result);
-            return null;
+            return int.TryParse(str, out var result) ? new int?(result) : null;
         }
 
         /// <summary>
-        /// Convertion from string to base64
+        /// Return the Base64 encoding
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
@@ -146,7 +142,7 @@ namespace SharpCoding.SharpHelpers
         }
 
         /// <summary>
-        /// Convertion from base64 to string
+        /// Return the string from the Base64 encoding
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
@@ -163,7 +159,7 @@ namespace SharpCoding.SharpHelpers
         public static string Left(this string str, int length)
         {
             if (length == 0 || str.Length == 0) return string.Empty;
-            string result = str;
+            var result = str;
             if (length < str.Length)
             {
                 result = str.Substring(0, length);
@@ -179,7 +175,7 @@ namespace SharpCoding.SharpHelpers
         public static string Right(this string str, int length)
         {
             if (length == 0 || str.Length == 0) return string.Empty;
-            string result = str;
+            var result = str;
             if (length < str.Length)
             {
                 result = str.Substring(str.Length - length);
@@ -243,7 +239,7 @@ namespace SharpCoding.SharpHelpers
         /// Returns true if the string is a tax code
         /// </summary>
         /// <param name="str"></param>
-        public static bool IsValidCodiceFiscle(this string str)
+        public static bool IsValidFiscalCode(this string str)
         {
             return Regex.Match(str,
                 @"^(?:[A-Z][AEIOU][AEIOUX]|[B-DF-HJ-NP-TV-Z]{2}[A-Z]){2}(?:[\dLMNP-V]{2}(?:[A-EHLMPR-T](?:[04LQ][1-9MNP-V]|[15MR][\dLMNP-V]|[26NS][0-8LMNP-U])|[DHPS][37PT][0L]|[ACELMRT][37PT][01LM]|[AC-EHLMPR-T][26NS][9V])|(?:[02468LNQSU][048LQU]|[13579MPRTV][26NS])B[26NS][9V])(?:[A-MZ][1-9MNP-V][\dLMNP-V]{2}|[A-M][0L](?:[1-9MNP-V][\dLMNP-V]|[0L][1-9MNP-V]))[A-Z]$",
@@ -260,6 +256,7 @@ namespace SharpCoding.SharpHelpers
                 @"[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}",
                 RegexOptions.IgnoreCase).Success;
         }
+
         /// <summary>
         /// Returns true if the string is a url path
         /// </summary>
@@ -269,8 +266,6 @@ namespace SharpCoding.SharpHelpers
             return Regex.Match(str,
                 @"http(s)?://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?",
                 RegexOptions.IgnoreCase).Success;
-
         }
-
     }
 }

@@ -42,6 +42,8 @@
         /// This method maps the instance value in one of the two parameters
         /// </summary>
         /// <param name="value"></param>
+        /// <param name="trueValue"></param>
+        /// <param name="falseValue"></param>
         /// <returns></returns>
         public static string ToStringValues(this bool? value, string trueValue, string falseValue)
         {
