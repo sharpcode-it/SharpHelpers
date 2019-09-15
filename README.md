@@ -24,6 +24,9 @@ The project contains several helpers for the manipulation and management of diff
 - List
 - Stream
 - Object
+- DateTime
+- Regex
+- XmlDocument
 	
 --------------------------------------
 ## Contributing
