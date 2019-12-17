@@ -1,10 +1,10 @@
-﻿using System;
+﻿// (c) 2019 SharpCoding
+// This code is licensed under MIT license (see LICENSE.txt for details)
+using System;
 
 namespace SharpCoding.SharpHelpers
 {
-    // (c) 2019 SharpCoding
-    // This code is licensed under MIT license (see LICENSE.txt for details)
-    public static class NumericHelper
+      public static class NumericHelper
     {
         /// <summary>
         /// check if the int number that invokes the method is odd
