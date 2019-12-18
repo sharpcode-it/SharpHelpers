@@ -1,12 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿// (c) 2019 SharpCoding
+// This code is licensed under MIT license (see LICENSE.txt for details)
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpCoding.SharpHelpers;
 using SharpCoding.SharpHelpers.DomainModel;
 using static SharpHelpers.UnitTest.TestClass.JsonClassTest;
 
 namespace SharpHelpers.UnitTest.String
 {
-    // (c) 2019 SharpCoding
-    // This code is licensed under MIT license (see LICENSE.txt for details)
     [TestClass]
     public class StringTest
     {

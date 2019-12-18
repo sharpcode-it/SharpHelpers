@@ -1,12 +1,12 @@
-﻿using System;
+﻿// (c) 2019 SharpCoding
+// This code is licensed under MIT license (see LICENSE.txt for details)
+using System;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
 namespace SharpCoding.SharpHelpers
 {
-    // (c) 2019 SharpCoding
-    // This code is licensed under MIT license (see LICENSE.txt for details)
     public static class XmlDocumentHelper
     {
         /// <summary>
