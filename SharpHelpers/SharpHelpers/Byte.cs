@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SharpCoding.SharpHelpers
@@ -43,6 +44,23 @@ namespace SharpCoding.SharpHelpers
         public static byte[] ToByteArray(this object value)
         {
             if (value == null) return new byte[0];
+
+            using (var memoryStream = new MemoryStream())
+            {
+                var binaryFormatter = new BinaryFormatter();
+                binaryFormatter.Serialize(memoryStream, value);
+                return memoryStream.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// Given an object, this method returns a byte array
+        /// </summary>
+        /// <param name="istance"></param>
+        /// <returns></returns>
+        public static T FromToByteArray<T>(this byte[] istance)
+        {
+            if (!typeof(T).IsSerializable) throw new SerializationException($"A {typeof(T)} object was not serializable");
 
             using (var memoryStream = new MemoryStream())
             {

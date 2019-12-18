@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpCoding.SharpHelpers;
+using SharpCoding.SharpHelpers.DomainModel;
 using static SharpHelpers.UnitTest.TestClass.JsonClassTest;
 
 namespace SharpHelpers.UnitTest.String
@@ -216,6 +217,44 @@ namespace SharpHelpers.UnitTest.String
 
             var result = instance.IsValidUrl();
             Assert.AreEqual(true, result);
+        }
+
+        [TestMethod]
+        public void TestCleanText()
+        {
+            const string istance = @"<!DOCTYPE html><html lang=""it"">
+            <head>
+            <title>CSS Template</title>
+            <meta charset=""utf-8"">
+            <meta name=""viewport"" content=""width=device-width, initial-scale=1"">
+            </head>
+            <body>
+            <h2>Lorem ipsum</h2>
+            <p>Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsumLorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum.</p>
+            <header>
+              <h2>Cities</h2>
+            </header>
+            <section>
+              <nav>
+                <ul>
+                  <li><a href=""#"">Lorem ipsum</a></li>
+                  <li><a href=""#"">Lorem ipsum#2</a></li>
+                  <li><a href=""#"">Lorem ipsum#3</a></li>
+                </ul>
+              </nav>
+              <article>
+                <h1>Lorem ipsum</h1>
+                <p>Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum</p>
+              </article>
+            </section>
+            <footer>
+              <p>Footer</p>
+            </footer>
+            </body>";
+
+            var cleanedText = istance.CleanText(CleanTextMode.AllHtmlTags);
+
+
         }
     }
 }

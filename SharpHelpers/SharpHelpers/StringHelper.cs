@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
+using SharpCoding.SharpHelpers.DomainModel;
+using SharpCoding.SharpHelpers.PrivateMethods;
 
 namespace SharpCoding.SharpHelpers
 {
@@ -53,7 +54,7 @@ namespace SharpCoding.SharpHelpers
         /// <returns></returns>
         public static string LastAfter(this string str, char separator)
         {
-            return ((IEnumerable<string>)str.Split(separator)).Last<string>();
+            return str.Split(separator).Last();
         }
 
         /// <summary>
@@ -86,7 +87,7 @@ namespace SharpCoding.SharpHelpers
         /// <returns></returns>
         public static bool IsInDb(this string s, params string[] comparands)
         {
-            return comparands.Any<string>(x => IsDbEqual(x, s));
+            return comparands.Any(x => IsDbEqual(x, s));
         }
 
         /// <summary>
@@ -230,6 +231,7 @@ namespace SharpCoding.SharpHelpers
         /// Count the specific word in a given string
         /// </summary>
         /// <param name="str"></param>
+        /// <param name="word"></param>
         public static int WordCount(this string str, string word)
         {
             return str.Contains(word) ? new Regex(word).Matches(str).Count : 0;
@@ -266,6 +268,26 @@ namespace SharpCoding.SharpHelpers
             return Regex.Match(str,
                 @"http(s)?://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?",
                 RegexOptions.IgnoreCase).Success;
+        }
+
+        /// <summary>
+        ///  This method clears string from Html Tags or from <script></script> block
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="mode">CleanTextMode option: AllHtmlTags/ScriptTags</param>
+        /// <exception cref="T:System.ArgumentOutOfRangeException">Thrown when a not supported value is passed for <paramref name="mode"/></exception>  
+        /// <returns>Cleared string</returns>
+        public static string CleanText(this string input,CleanTextMode mode)
+        {
+            switch (mode)
+            {
+                case CleanTextMode.AllHtmlTags:
+                    return input.StripHtml();
+                case CleanTextMode.ScriptTagx:
+                    return input.RemoveScriptTag();
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
+            }
         }
     }
 }
