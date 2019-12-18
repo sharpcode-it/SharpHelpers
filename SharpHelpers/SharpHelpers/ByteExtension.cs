@@ -60,15 +60,14 @@ namespace SharpCoding.SharpHelpers
         /// </summary>
         /// <param name="istance"></param>
         /// <returns></returns>
-        public static T FromToByteArray<T>(this byte[] istance)
+        public static T FromByteArrayTo<T>(this byte[] istance)
         {
             if (!typeof(T).IsSerializable) throw new SerializationException($"A {typeof(T)} object was not serializable");
 
             using (var memoryStream = new MemoryStream())
             {
                 var binaryFormatter = new BinaryFormatter();
-                binaryFormatter.Serialize(memoryStream, value);
-                return memoryStream.ToArray();
+                return (T)binaryFormatter.Deserialize(memoryStream);
             }
         }
     }
