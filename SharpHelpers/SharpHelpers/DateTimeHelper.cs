@@ -4,8 +4,6 @@ using System;
 
 namespace SharpCoding.SharpHelpers
 {
-    // (c) 2019 SharpCoding
-    // This code is licensed under MIT license (see LICENSE.txt for details)
     public static class DateTimeHelper
     {
         /// <summary>
@@ -16,7 +14,7 @@ namespace SharpCoding.SharpHelpers
         /// <returns></returns>
         public static DateTime AddWeeks(this DateTime dateTime, int weeks)
         {
-            return DateTime.Now.AddDays(weeks * 7);
+            return dateTime.AddDays(weeks * 7);
         }
 
         /// <summary>

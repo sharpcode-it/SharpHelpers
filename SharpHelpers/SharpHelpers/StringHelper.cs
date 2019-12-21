@@ -10,10 +10,15 @@ using SharpCoding.SharpHelpers.PrivateMethods;
 
 namespace SharpCoding.SharpHelpers
 {
-    // (c) 2019 SharpCoding
-    // This code is licensed under MIT license (see LICENSE.txt for details)
     public static class StringHelper
     {
+        /// <summary>
+        /// The method replaces all occurrences of the strings toReplace with the replaceWith
+        /// </summary>
+        /// <param name="istance"></param>
+        /// <param name="toReplace"></param>
+        /// <param name="replaceWith"></param>
+        /// <returns></returns>
         public static string Replace(this string istance, string[] toReplace, string replaceWith)
         {
             return string.IsNullOrEmpty(istance)
@@ -281,15 +286,12 @@ namespace SharpCoding.SharpHelpers
         /// <returns>Cleared string</returns>
         public static string CleanText(this string input,CleanTextMode mode)
         {
-            switch (mode)
+            return mode switch
             {
-                case CleanTextMode.AllHtmlTags:
-                    return input.StripHtml();
-                case CleanTextMode.ScriptTagx:
-                    return input.RemoveScriptTag();
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
-            }
+                CleanTextMode.AllHtmlTags => input.StripHtml(),
+                CleanTextMode.ScriptTagx => input.RemoveScriptTag(),
+                _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null),
+            };
         }
     }
 }
