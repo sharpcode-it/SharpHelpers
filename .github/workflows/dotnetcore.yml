@@ -13,7 +13,7 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 2.2.108
+    - name: dotnet version
+      run:  dotnet --version
     - name: Build with dotnet
-      run: |
-      dotnet --version 
-      dotnet build --configuration Release SharpHelpers/SharpHelpers.sln
+      run:  dotnet build --configuration Release SharpHelpers/SharpHelpers.sln
