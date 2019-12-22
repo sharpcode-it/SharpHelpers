@@ -12,7 +12,7 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 2.2.208
+        dotnet-version: 2.2.207
     - name: dotnet version
       run:  dotnet --version
     - name: Build with dotnet
