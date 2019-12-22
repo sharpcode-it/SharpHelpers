@@ -46,5 +46,26 @@ namespace SharpCoding.SharpHelpers
         {
             return dateTime?.ToUniversalTime();
         }
+
+        /// <summary>
+        /// Return the start of the current day
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static DateTime GetStartOfDay(this DateTime dateTime)
+        {
+            return new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 0, 0, 0, 0);
+        }
+
+        /// <summary>
+        /// Return the end of the current day
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static DateTime GetEndOfDay(this DateTime dateTime)
+        {
+            return new DateTime(dateTime.Year, dateTime.Month,
+                                 dateTime.Day, 23, 59, 59, 999);
+        }
     }
 }
