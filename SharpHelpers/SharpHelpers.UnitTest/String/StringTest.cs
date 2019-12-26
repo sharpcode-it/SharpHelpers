@@ -220,6 +220,13 @@ namespace SharpHelpers.UnitTest.String
         }
 
         [TestMethod]
+        public void TestFormatWithMask()
+        {
+            var s = "aaaaaaaabbbbccccddddeeeeeeeeeeee".FormatWithMask("Hello ########-#A###-####-####-############ Oww");
+            Assert.AreEqual(true, s == "Hello aaaaaaaa-bAbbb-cccc-dddd-eeeeeeeeeeee Oww");
+        }
+
+        [TestMethod]
         public void TestCleanText()
         {
             const string istance = @"<!DOCTYPE html><html lang=""it"">
