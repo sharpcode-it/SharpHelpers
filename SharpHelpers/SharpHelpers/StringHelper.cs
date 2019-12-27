@@ -42,6 +42,30 @@ namespace SharpCoding.SharpHelpers
                     string.Empty, RegexOptions.IgnoreCase).Trim();
         }
 
+        /// <summary>
+        /// Formats the string according to the specified mask
+        /// </summary>
+        /// <param name="istance">The input string.</param>
+        /// <param name="mask">The mask for formatting. Like "A##-##-T-###Z"</param>
+        /// <returns>The formatted string</returns>
+        public static string FormatWithMask(this string istance, string mask)
+        {
+            if (string.IsNullOrEmpty(istance)) return istance;
+            var output = string.Empty;
+            var index = 0;
+            foreach (var m in mask)
+            {
+                if (m == '#')
+                {
+                    if (index >= istance.Length) continue;
+                    output += istance[index];
+                    index++;
+                }
+                else
+                    output += m;
+            }
+            return output;
+        }
 
         private static string RegexReplace(this string stringValue, string matchPattern, string toReplaceWith)
         {

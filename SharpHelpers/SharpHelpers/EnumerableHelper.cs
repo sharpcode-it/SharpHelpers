@@ -13,6 +13,7 @@ namespace SharpCoding.SharpHelpers
         /// </summary>
         /// <param name="list"></param>
         /// <param name="propertySelector"></param>
+        /// <exception cref="System.ArgumentNullException">throw when <paramref name="list"/> is null</exception>
         /// <returns></returns>
         public static IEnumerable<T> DistinctBy<T>(this List<T> list, Func<T, object> propertySelector)
         {
