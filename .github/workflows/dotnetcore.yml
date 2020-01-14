@@ -17,7 +17,7 @@ jobs:
     - name: Setup .NET Core 2.2
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 2.2.100
+        dotnet-version: 2.2.402
         
     - name: dotnet version
       run:  dotnet --version
