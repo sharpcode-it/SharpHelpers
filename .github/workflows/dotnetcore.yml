@@ -21,10 +21,10 @@ jobs:
       run:  dotnet build --configuration Release ./SharpHelpers/SharpHelpers.sln
       
     - name: dotnet test
-      run: dotnet test opulence.sln -c Release --no-build
+      run: dotnet test ./SharpHelpers/SharpHelpers.sln -c Release --no-build
 
     - name: dotnet pack
-      run: dotnet pack opulence.sln -c Release --no-build
+      run: dotnet pack ./SharpHelpers/SharpHelpers.sln -c Release --no-build
 
     - name: setup nuget
       if: github.event_name == 'push' && github.ref == 'refs/heads/master'
