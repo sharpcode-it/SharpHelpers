@@ -5,7 +5,7 @@
 
 SharpHelpers is a collections of some handy code packages and tutorials to make developer's life easier.
 
-Get SharpHelpers::
+Get SharpHelpers:
 
 	git clone git://github.com/sharpcodingIT/SharpHelpers/
 	
