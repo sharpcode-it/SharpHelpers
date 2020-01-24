@@ -11,12 +11,14 @@
     <RepositoryUrl>https://github.com/sharpcode-it/SharpHelpers</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
     <PackageTags>SharpCoding, Helpers, C#</PackageTags>
-    <PackageReleaseNotes>First implementation</PackageReleaseNotes>
+    <PackageReleaseNotes></PackageReleaseNotes>
     <Description>SharpHelpers is a collections of some handy code packages and tutorials to make developer's life easier.</Description>
     <Version>1.0.1</Version>
   </PropertyGroup>
   <PropertyGroup>
     <LangVersion>8</LangVersion>
+    <PackageIcon>ico.png</PackageIcon>
+    <PackageIconUrl />
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
@@ -24,6 +26,10 @@
 
   <ItemGroup>
     <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="Asset\ico.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
