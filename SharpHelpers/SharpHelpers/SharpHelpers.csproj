@@ -6,7 +6,7 @@
     <Authors>SharpCoding</Authors>
     <Company>SharpCoding</Company>
     <Copyright>SharpCodingIT</Copyright>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/sharpcode-it/SharpHelpers</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
