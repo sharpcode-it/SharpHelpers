@@ -14,7 +14,7 @@ namespace SharpCoding.SharpHelpers
         /// <param name="fileUrl"></param>
         public static void SafeDelete(string fileUrl)
         {
-            if ((string.IsNullOrEmpty(fileUrl)) || (!File.Exists(fileUrl)))
+            if (string.IsNullOrEmpty(fileUrl) || (!File.Exists(fileUrl)))
                 return;
 
             if (!FileInUse(fileUrl)) File.Delete(fileUrl);

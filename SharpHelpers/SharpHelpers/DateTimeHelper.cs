@@ -4,8 +4,6 @@ using System;
 
 namespace SharpCoding.SharpHelpers
 {
-    // (c) 2019 SharpCoding
-    // This code is licensed under MIT license (see LICENSE.txt for details)
     public static class DateTimeHelper
     {
         /// <summary>
@@ -16,7 +14,7 @@ namespace SharpCoding.SharpHelpers
         /// <returns></returns>
         public static DateTime AddWeeks(this DateTime dateTime, int weeks)
         {
-            return DateTime.Now.AddDays(weeks * 7);
+            return dateTime.AddDays(weeks * 7);
         }
 
         /// <summary>
@@ -47,6 +45,27 @@ namespace SharpCoding.SharpHelpers
         public static DateTime? ToUniversalTime(this DateTime? dateTime)
         {
             return dateTime?.ToUniversalTime();
+        }
+
+        /// <summary>
+        /// Return the start of the current day
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static DateTime GetStartOfDay(this DateTime dateTime)
+        {
+            return new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 0, 0, 0, 0);
+        }
+
+        /// <summary>
+        /// Return the end of the current day
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static DateTime GetEndOfDay(this DateTime dateTime)
+        {
+            return new DateTime(dateTime.Year, dateTime.Month,
+                                 dateTime.Day, 23, 59, 59, 999);
         }
     }
 }
