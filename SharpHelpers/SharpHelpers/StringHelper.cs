@@ -1,6 +1,7 @@
 ﻿// (c) 2019 SharpCoding
 // This code is licensed under MIT license (see LICENSE.txt for details)
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
@@ -314,6 +315,21 @@ namespace SharpCoding.SharpHelpers
                 default:
                     throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
             }
+        }
+
+        /// <summary>
+        /// Gets the matches between delimiters.
+        /// </summary>
+        /// <param name="input">The source string.</param>
+        /// <param name="beginDelim">The beginning string delimiter.</param>
+        /// <param name="endDelim">The end string delimiter.</param>
+        /// <returns></returns>
+
+        public static IEnumerable<string> ExtractBetween(this string input,string beginDelim, string endDelim)
+        {
+            var reg = new Regex($"(?<={Regex.Escape(beginDelim)})(.+?)(?={Regex.Escape(endDelim)})");
+            var matches = reg.Matches(input);
+            return (from Match m in matches select m.Value).ToList();
         }
     }
 }
