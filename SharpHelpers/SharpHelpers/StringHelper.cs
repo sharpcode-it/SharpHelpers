@@ -333,5 +333,30 @@ namespace SharpCoding.SharpHelpers
             var matches = reg.Matches(input);
             return (from Match m in matches select m.Value).ToList();
         }
+
+        /// <summary>
+        /// Check the string for possible SqlInjection.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static bool IsSqlInjection(this string input)
+        {
+            string[] sqlCheckList = {
+                "char","nchar","varchar","nvarchar", "alter","begin","cast","create",
+                "cursor","declare","delete","drop", "end","exec","execute","fetch","insert",
+                "kill","select","sys","sysobjects","syscolumns","table","update"
+            };
+
+            var checkString = input.ToLower().Replace("'", "''");
+            for (var i = 0; i <= sqlCheckList.Length - 1; i++)
+            {
+                if (Regex.IsMatch(checkString, $"\\b{sqlCheckList[i]}\\b"))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }
