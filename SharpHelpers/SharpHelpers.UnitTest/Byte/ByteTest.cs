@@ -5,7 +5,7 @@ using SharpCoding.SharpHelpers;
 
 namespace SharpHelpers.UnitTest.Byte
 {
-     [TestClass]
+    [TestClass]
     public class ByteTest
     {
         [TestMethod]

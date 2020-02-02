@@ -1,6 +1,7 @@
 ﻿// (c) 2019 SharpCoding
 // This code is licensed under MIT license (see LICENSE.txt for details)
 using System;
+using System.Globalization;
 
 namespace SharpCoding.SharpHelpers
 {
@@ -66,6 +67,23 @@ namespace SharpCoding.SharpHelpers
         {
             return new DateTime(dateTime.Year, dateTime.Month,
                                  dateTime.Day, 23, 59, 59, 999);
+        }
+
+        /// <summary>
+        /// Try to parse the string value with specific DateTime formats
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="formats"></param>
+        /// <returns></returns>
+        public static DateTime? AsDateTime(this string value, string[] formats)
+        {
+            if (DateTime.TryParseExact(value, formats, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind,
+                out DateTime utcDateTime))
+            {
+                return utcDateTime;
+            }
+
+            return null;
         }
     }
 }

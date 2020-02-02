@@ -6,7 +6,7 @@ using System.IO;
 
 namespace SharpCoding.SharpHelpers
 {
-   public static class FileHelper
+    public static class FileHelper
     {
         /// <summary>
         /// Given a file url, this method will safely delete the file
