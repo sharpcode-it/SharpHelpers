@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace SharpCoding.SharpHelpers
 {
-   public static class EnumerableHelper
+    public static class EnumerableHelper
     {
         /// <summary>
         /// This method returns a sublist of the instance after a distinctby operation
@@ -47,7 +47,7 @@ namespace SharpCoding.SharpHelpers
         public static IEnumerable<T> GetDuplicates<T>(this List<T> list, Func<T, object> propertySelector)
         {
             if (propertySelector == null) throw new ArgumentNullException(nameof(propertySelector));
-            return (IEnumerable<T>) list
+            return (IEnumerable<T>)list
                 .GroupBy(propertySelector)
                 .Select(g => new { Value = g.Key, Count = g.Count() })
                 .OrderByDescending(x => x.Count);

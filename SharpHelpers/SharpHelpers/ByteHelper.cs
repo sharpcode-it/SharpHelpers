@@ -6,7 +6,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SharpCoding.SharpHelpers
 {
-    public static class ByteExtension
+    public static class ByteHerlper
     {  
         /// <summary>
         /// Given a byte array, this method returns the specified object 

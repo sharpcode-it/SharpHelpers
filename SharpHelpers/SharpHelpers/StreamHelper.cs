@@ -7,7 +7,7 @@ using System.Text;
 
 namespace SharpCoding.SharpHelpers
 {
-     public static class StreamHelper
+    public static class StreamHelper
     {
         /// <summary>
         /// This method returns a string from a stream
@@ -82,7 +82,7 @@ namespace SharpCoding.SharpHelpers
             if (stream == null) throw new ArgumentNullException(nameof(stream));
             var formatter = new BinaryFormatter();
             stream.Seek(0, SeekOrigin.Begin);
-            return (T)formatter.Deserialize(stream);            
+            return (T)formatter.Deserialize(stream);
         }
     }
 }

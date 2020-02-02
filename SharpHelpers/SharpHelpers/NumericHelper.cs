@@ -4,7 +4,7 @@ using System;
 
 namespace SharpCoding.SharpHelpers
 {
-      public static class NumericHelper
+    public static class NumericHelper
     {
         /// <summary>
         /// check if the int number that invokes the method is odd
@@ -33,7 +33,7 @@ namespace SharpCoding.SharpHelpers
         /// <param name="numberToCheck"></param>
         /// <returns></returns>
         public static bool IsPrime(this int numberToCheck)
-        {            
+        {
             var limit = Math.Ceiling(Math.Sqrt(numberToCheck));
             for (var i = 2; i <= limit; i++)
             {

@@ -29,9 +29,7 @@ namespace SharpCoding.SharpHelpers
                 }.Contains(type) ||
                 Convert.GetTypeCode(type) != TypeCode.Object ||
                 (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>) &&
-                 IsSystemType(type.GetGenericArguments()[0]))
-                ;
+                 IsSystemType(type.GetGenericArguments()[0]));
         }
-
     }
 }
