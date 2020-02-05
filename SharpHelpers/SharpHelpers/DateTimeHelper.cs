@@ -85,5 +85,17 @@ namespace SharpCoding.SharpHelpers
 
             return null;
         }
+
+        /// <summary>
+        /// Check if a date is between two dates
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <param name="rangeBeg"></param>
+        /// <param name="rangeEnd"></param>
+        /// <returns></returns>
+        public static bool IsBetween(this DateTime dt, DateTime rangeBeg, DateTime rangeEnd)
+        {
+            return dt.Ticks >= rangeBeg.Ticks && dt.Ticks <= rangeEnd.Ticks;
+        }
     }
 }
