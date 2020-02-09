@@ -17,7 +17,9 @@ namespace SharpCoding.SharpHelpers
         /// <returns></returns>
         public static IEnumerable<T> DistinctBy<T>(this List<T> list, Func<T, object> propertySelector)
         {
+            if (list == null) throw new ArgumentNullException(nameof(list));
             if (propertySelector == null) throw new ArgumentNullException(nameof(propertySelector));
+
             return list
                  .GroupBy(propertySelector)
                  .Select(x => x.First());
@@ -32,6 +34,7 @@ namespace SharpCoding.SharpHelpers
         public static IEnumerable<T> DistinctBy<T>(this List<T> list)
         {
             if (list == null) throw new ArgumentNullException(nameof(list));
+
             return list
                 .GroupBy(x => x)
                 .Select(x => x.First());
@@ -46,7 +49,9 @@ namespace SharpCoding.SharpHelpers
         /// <returns></returns>
         public static IEnumerable<T> GetDuplicates<T>(this List<T> list, Func<T, object> propertySelector)
         {
+            if (list == null) throw new ArgumentNullException(nameof(list));
             if (propertySelector == null) throw new ArgumentNullException(nameof(propertySelector));
+
             return (IEnumerable<T>)list
                 .GroupBy(propertySelector)
                 .Select(g => new { Value = g.Key, Count = g.Count() })
@@ -62,7 +67,9 @@ namespace SharpCoding.SharpHelpers
         /// <returns></returns>
         public static int CountDuplicates<T>(this List<T> list, Func<T, object> propertySelector)
         {
+            if (list == null) throw new ArgumentNullException(nameof(list));
             if (propertySelector == null) throw new ArgumentNullException(nameof(propertySelector));
+
             return list
                 .GroupBy(propertySelector)
                 .Select(g => new { Value = g.Key, Count = g.Count() })
@@ -81,6 +88,7 @@ namespace SharpCoding.SharpHelpers
         public static bool AddOrSet<T>(this List<T> list, int index, T value)
         {
             if (list == null) throw new ArgumentNullException(nameof(list));
+
             if (list.Count < index) return false;
             if (list.Count > index)
             {
@@ -99,6 +107,8 @@ namespace SharpCoding.SharpHelpers
         /// <returns></returns>
         public static bool IsSerializable<T>(this List<T> list)
         {
+            if (list == null) throw new ArgumentNullException(nameof(list));
+
             return list != null && list.All(item => item.GetType().IsSerializable);
         }
 
@@ -111,6 +121,8 @@ namespace SharpCoding.SharpHelpers
         /// <returns></returns>
         public static string ToString<T>(this List<T> list, string delimiter)
         {
+            if (list == null) throw new ArgumentNullException(nameof(list));
+
             return string.Join(delimiter, list.ToArray());
         }
 
@@ -124,7 +136,8 @@ namespace SharpCoding.SharpHelpers
         public static IEnumerable<List<T>> Split<T>(this List<T> list, int size)
         {
             if (list == null) throw new ArgumentNullException(nameof(list));
-            if (size < 0) throw new ArgumentNullException(nameof(size));
+            if (size < 0) throw new ArgumentException(nameof(size));
+
             var splitList = new List<List<T>>();
             for (var i = 0; i < list.Count; i += size)
             {
