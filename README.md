@@ -22,6 +22,7 @@ The project contains several helpers for the manipulation and management of diff
 - Registry
 - String
 - List
+- Dictionary
 - Stream
 - Object
 - DateTime
