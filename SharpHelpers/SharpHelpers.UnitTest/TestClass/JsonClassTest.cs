@@ -10,7 +10,7 @@ namespace SharpHelpers.UnitTest.TestClass
     {
         public class GlossDef
         {
-            public string para { get; set; }
+            public string Para { get; set; }
             public List<string> GlossSeeAlso { get; set; }
         }
 
@@ -32,19 +32,19 @@ namespace SharpHelpers.UnitTest.TestClass
 
         public class GlossDiv
         {
-            public string title { get; set; }
+            public string Title { get; set; }
             public GlossList GlossList { get; set; }
         }
 
         public class Glossary
         {
-            public string title { get; set; }
+            public string Title { get; set; }
             public GlossDiv GlossDiv { get; set; }
         }
 
         public class RootObject
         {
-            public Glossary glossary { get; set; }
+            public Glossary Glossary { get; set; }
         }
 
     }
