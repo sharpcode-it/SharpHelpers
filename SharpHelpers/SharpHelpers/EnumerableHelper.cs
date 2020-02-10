@@ -55,7 +55,7 @@ namespace SharpCoding.SharpHelpers
                 var enumer = enumerable
                      .GroupBy(propertySelector)
                      .Where(k=>k.Count()>1)
-                     .Select(g =>(T)g.Key);
+                     .Select(g =>(T)g.First());
           
             return enumer;
              
