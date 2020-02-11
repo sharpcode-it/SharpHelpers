@@ -22,8 +22,7 @@ namespace SharpCoding.SharpHelpers
             params object[] argList)
         {
             if (dictionary == null) throw new ArgumentNullException(nameof(dictionary));
-
-            dictionary.Add(key, string.Format(formatString, argList));
+                dictionary.Add(key, string.Format(formatString, argList));
         }
 
         /// <summary>
