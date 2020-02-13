@@ -32,7 +32,7 @@ jobs:
       run: dotnet pack ./SharpHelpers/SharpHelpers.sln -c Release --no-build
 
     - name: setup nuget
-      if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+      if: github.event_name == 'push' && github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/v')
       uses: NuGet/setup-nuget@v1.0.2
       with:
         nuget-version: latest
@@ -42,7 +42,7 @@ jobs:
       run: nuget source Add -Config ./SharpHelpers/SharpHelpers/nuget.config -Name "github" -Source https://nuget.pkg.github.com/sharpcode-it/index.json -UserName iscifoni -Password ${{ secrets.GITHUB_TOKEN }} -StorePasswordInClearText
 
     - name: Publish nuget to GitHub Packages
-      if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+      if: github.event_name == 'push' && github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/v')
       run: |
           for f in ./SharpHelpers/SharpHelpers/bin/Release/*.nupkg
           do
