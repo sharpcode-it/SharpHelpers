@@ -12,7 +12,11 @@
   "cloudBuild": {
     "buildNumber": {
       "enabled": true,
-      "setVersionVariables": true
+      "setVersionVariables": true,
+       "includeCommitId": {
+          "when": "nonPublicReleaseOnly",
+          "where": "buildMetadata"
+      }
     }
   }
 }
