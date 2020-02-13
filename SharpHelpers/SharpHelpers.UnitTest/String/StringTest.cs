@@ -1,5 +1,8 @@
 ﻿// (c) 2019 SharpCoding
 // This code is licensed under MIT license (see LICENSE.txt for details)
+
+using System.Globalization;
+using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpCoding.SharpHelpers;
 using SharpCoding.SharpHelpers.DomainModel;
@@ -262,6 +265,30 @@ namespace SharpHelpers.UnitTest.String
             var cleanedText = istance.CleanText(CleanTextMode.AllHtmlTags);
 
 
+        }
+
+        [TestMethod]
+        public void TestToInt32()
+        {
+            var testInput = "17";
+
+            Assert.IsTrue(testInput.ToInt32() == 17);
+
+            testInput = "-17";
+            Assert.IsTrue(testInput.ToInt32() == -17);
+
+            testInput = "€17";
+            Assert.IsTrue(testInput.ToInt32(new CultureInfo("it-IT")) == 17);
+
+            testInput = "1.700";
+            Assert.IsTrue(testInput.ToInt32(new CultureInfo("it-IT")) == 1700);
+
+            //Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+            testInput = "$17";
+            Assert.IsTrue(testInput.ToInt32(new CultureInfo("en-US")) == 17);
+
+            testInput = "1,700";
+            Assert.IsTrue(testInput.ToInt32(new CultureInfo("en-US")) == 1700);
         }
     }
 }
