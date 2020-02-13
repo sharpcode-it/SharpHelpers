@@ -2,6 +2,7 @@
 // This code is licensed under MIT license (see LICENSE.txt for details)
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
@@ -357,6 +358,21 @@ namespace SharpCoding.SharpHelpers
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Returns an int from an input string.
+        ///  </summary>
+        /// <returns></returns>
+        public static int ToInt32(this string value)
+        {
+            var isValidInt = int.TryParse(value, NumberStyles.AllowThousands |
+                                                    NumberStyles.AllowParentheses |
+                                                    NumberStyles.AllowCurrencySymbol|
+                                                    NumberStyles.AllowLeadingSign, null,
+                out var result);
+
+            return isValidInt ? result : 0;
         }
     }
 }
