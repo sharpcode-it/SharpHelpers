@@ -41,6 +41,11 @@ jobs:
       if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
       run: nuget source Add -Config ./SharpHelpers/SharpHelpers/nuget.config -Name "github" -Source https://nuget.pkg.github.com/sharpcode-it/index.json -UserName iscifoni -Password ${{ secrets.GITHUB_TOKEN }} -StorePasswordInClearText
 
-    - name: push packages
+    - name: Publish nuget to GitHub Packages
       if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
-      run: nuget push **/*.nupkg -Source "github" -SkipDuplicate
+      run: |
+           for f in ./SharpHelpers/SharpHelpers/SharpHelpers/SharpHelpers/bin/Release/*.nupkg
+           do
+             curl -vX PUT -u "vslee:${{ secrets.GHPackagesToken }}" -F package=@$f https://nuget.pkg.github.com/sharpcode-it/
+           done
+      shell: bash
