@@ -23,6 +23,14 @@ jobs:
     - name: dotnet version
       run:  dotnet --version
       
+    - name: Run GitVersion
+      uses: roryprimrose/rungitversion@v1.0.0
+      with:
+        # "true" to use GitVersion /nofetch, any other value to enable fetch
+        nofetch: false
+        # "true" to use GitVersion /nocache, any other value to enable cache
+        nocache: false
+
     - name: Build with dotnet
       run:  dotnet build --configuration Release ./SharpHelpers/SharpHelpers.sln
 
@@ -58,13 +66,4 @@ jobs:
           done
           
       shell: bash
-      
-    - name: Run GitVersion
-      uses: roryprimrose/rungitversion@v1.0.0
-      with:
-        # "true" to use GitVersion /nofetch, any other value to enable fetch
-        nofetch: true
-        # "true" to use GitVersion /nocache, any other value to enable cache
-        nocache: false
-
   
