@@ -283,12 +283,12 @@ namespace SharpHelpers.UnitTest.String
             testInput = "1.700";
             Assert.IsTrue(testInput.ToInt32() == 1700);
 
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+            //Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
             testInput = "$17";
-            Assert.IsTrue(testInput.ToInt32() == 17);
+            Assert.IsTrue(testInput.ToInt32(new CultureInfo("en-US")) == 17);
 
             testInput = "1,700";
-            Assert.IsTrue(testInput.ToInt32() == 1700);
+            Assert.IsTrue(testInput.ToInt32(new CultureInfo("en-US")) == 1700);
         }
     }
 }

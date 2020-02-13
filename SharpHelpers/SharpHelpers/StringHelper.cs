@@ -364,12 +364,12 @@ namespace SharpCoding.SharpHelpers
         /// Returns an int from an input string.
         ///  </summary>
         /// <returns></returns>
-        public static int ToInt32(this string value)
+        public static int ToInt32(this string value,CultureInfo culture = null)
         {
             var isValidInt = int.TryParse(value, NumberStyles.AllowThousands |
                                                     NumberStyles.AllowParentheses |
                                                     NumberStyles.AllowCurrencySymbol|
-                                                    NumberStyles.AllowLeadingSign, null,
+                                                    NumberStyles.AllowLeadingSign, culture ?? CultureInfo.CurrentCulture,
                 out var result);
 
             return isValidInt ? result : 0;
