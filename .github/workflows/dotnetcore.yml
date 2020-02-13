@@ -23,7 +23,7 @@ jobs:
       run:  dotnet --version
       
     - name: Build with dotnet
-      run:  dotnet build --configuration Release ./SharpHelpers/SharpHelpers.sln /p:PublicRelease=true
+      run:  dotnet build --configuration Release ./SharpHelpers/SharpHelpers.sln
 
     - name: dotnet test
       run: dotnet test ./SharpHelpers/SharpHelpers.sln -c Release --no-build
