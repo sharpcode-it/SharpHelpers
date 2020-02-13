@@ -1,14 +1,26 @@
-﻿using System;
+﻿// (c) 2019 SharpCoding
+// This code is licensed under MIT license (see LICENSE.txt for details)
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
+using SharpCoding.SharpHelpers.DomainModel;
+using SharpCoding.SharpHelpers.PrivateMethods;
 
 namespace SharpCoding.SharpHelpers
 {
     public static class StringHelper
     {
+        /// <summary>
+        /// The method replaces all occurrences of the strings toReplace with the replaceWith
+        /// </summary>
+        /// <param name="istance"></param>
+        /// <param name="toReplace"></param>
+        /// <param name="replaceWith"></param>
+        /// <returns></returns>
         public static string Replace(this string istance, string[] toReplace, string replaceWith)
         {
             return string.IsNullOrEmpty(istance)
@@ -32,6 +44,30 @@ namespace SharpCoding.SharpHelpers
                     string.Empty, RegexOptions.IgnoreCase).Trim();
         }
 
+        /// <summary>
+        /// Formats the string according to the specified mask
+        /// </summary>
+        /// <param name="istance">The input string.</param>
+        /// <param name="mask">The mask for formatting. Like "A##-##-T-###Z"</param>
+        /// <returns>The formatted string</returns>
+        public static string FormatWithMask(this string istance, string mask)
+        {
+            if (string.IsNullOrEmpty(istance)) return istance;
+            var output = string.Empty;
+            var index = 0;
+            foreach (var m in mask)
+            {
+                if (m == '#')
+                {
+                    if (index >= istance.Length) continue;
+                    output += istance[index];
+                    index++;
+                }
+                else
+                    output += m;
+            }
+            return output;
+        }
 
         private static string RegexReplace(this string stringValue, string matchPattern, string toReplaceWith)
         {
@@ -51,7 +87,7 @@ namespace SharpCoding.SharpHelpers
         /// <returns></returns>
         public static string LastAfter(this string str, char separator)
         {
-            return ((IEnumerable<string>)str.Split(separator)).Last<string>();
+            return str.Split(separator).Last();
         }
 
         /// <summary>
@@ -60,7 +96,7 @@ namespace SharpCoding.SharpHelpers
         /// <param name="str"></param>
         /// <param name="comparand"></param>
         /// <returns></returns>
-        public static bool IsDBEqual(this string str, string comparand)
+        public static bool IsDbEqual(this string str, string comparand)
         {
             return string.Equals(str, comparand, StringComparison.OrdinalIgnoreCase);
         }
@@ -71,9 +107,9 @@ namespace SharpCoding.SharpHelpers
         /// <param name="s"></param>
         /// <param name="comparand"></param>
         /// <returns></returns>
-        public static bool IsNotDBEqual(this string s, string comparand)
+        public static bool IsNotDbEqual(this string s, string comparand)
         {
-            return !IsDBEqual(s, comparand);
+            return !IsDbEqual(s, comparand);
         }
 
         /// <summary>
@@ -82,9 +118,9 @@ namespace SharpCoding.SharpHelpers
         /// <param name="s"></param>
         /// <param name="comparands"></param>
         /// <returns></returns>
-        public static bool IsInDB(this string s, params string[] comparands)
+        public static bool IsInDb(this string s, params string[] comparands)
         {
-            return ((IEnumerable<string>)comparands).Any<string>((Func<string, bool>)(x => IsDBEqual(x, s)));
+            return comparands.Any(x => IsDbEqual(x, s));
         }
 
         /// <summary>
@@ -98,7 +134,6 @@ namespace SharpCoding.SharpHelpers
             if (string.IsNullOrEmpty(s) || s.Length <= maxLength || maxLength <= 0)
                 return s;
             return s.Substring(0, maxLength);
-
         }
 
         /// <summary>
@@ -111,10 +146,9 @@ namespace SharpCoding.SharpHelpers
         public static string Truncate(this string str, int maxLength, out bool truncated)
         {
             truncated = false;
-
-            string substr = SafeSubstringByLength(str, maxLength);
-            int? length1 = substr?.Length;
-            int? length2 = str?.Length;
+            var substr = SafeSubstringByLength(str, maxLength);
+            var length1 = substr?.Length;
+            var length2 = str?.Length;
             if (length1.GetValueOrDefault() == length2.GetValueOrDefault())
                 return substr;
             truncated = true;
@@ -128,13 +162,11 @@ namespace SharpCoding.SharpHelpers
         /// <returns></returns>
         public static int? ToNullableInt(this string str)
         {
-            if (int.TryParse(str, out var result))
-                return new int?(result);
-            return null;
+            return int.TryParse(str, out var result) ? new int?(result) : null;
         }
 
         /// <summary>
-        /// Convertion from string to base64
+        /// Return the Base64 encoding
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
@@ -144,7 +176,7 @@ namespace SharpCoding.SharpHelpers
         }
 
         /// <summary>
-        /// Convertion from base64 to string
+        /// Return the string from the Base64 encoding
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
@@ -161,7 +193,7 @@ namespace SharpCoding.SharpHelpers
         public static string Left(this string str, int length)
         {
             if (length == 0 || str.Length == 0) return string.Empty;
-            string result = str;
+            var result = str;
             if (length < str.Length)
             {
                 result = str.Substring(0, length);
@@ -177,7 +209,7 @@ namespace SharpCoding.SharpHelpers
         public static string Right(this string str, int length)
         {
             if (length == 0 || str.Length == 0) return string.Empty;
-            string result = str;
+            var result = str;
             if (length < str.Length)
             {
                 result = str.Substring(str.Length - length);
@@ -196,7 +228,7 @@ namespace SharpCoding.SharpHelpers
         }
 
         /// <summary>
-        /// Returns true if the stirng is in the email address 
+        /// Returns true if the string is in the email address 
         /// </summary>
         /// <param name="str"></param>
         public static bool IsEmail(this string str)
@@ -232,9 +264,115 @@ namespace SharpCoding.SharpHelpers
         /// Count the specific word in a given string
         /// </summary>
         /// <param name="str"></param>
+        /// <param name="word"></param>
         public static int WordCount(this string str, string word)
         {
             return str.Contains(word) ? new Regex(word).Matches(str).Count : 0;
+        }
+
+        /// <summary>
+        /// Returns true if the string is a tax code
+        /// </summary>
+        /// <param name="str"></param>
+        public static bool IsValidFiscalCode(this string str)
+        {
+            return Regex.Match(str,
+                @"^(?:[A-Z][AEIOU][AEIOUX]|[B-DF-HJ-NP-TV-Z]{2}[A-Z]){2}(?:[\dLMNP-V]{2}(?:[A-EHLMPR-T](?:[04LQ][1-9MNP-V]|[15MR][\dLMNP-V]|[26NS][0-8LMNP-U])|[DHPS][37PT][0L]|[ACELMRT][37PT][01LM]|[AC-EHLMPR-T][26NS][9V])|(?:[02468LNQSU][048LQU]|[13579MPRTV][26NS])B[26NS][9V])(?:[A-MZ][1-9MNP-V][\dLMNP-V]{2}|[A-M][0L](?:[1-9MNP-V][\dLMNP-V]|[0L][1-9MNP-V]))[A-Z]$",
+                RegexOptions.IgnoreCase).Success;
+        }
+
+        /// <summary>
+        /// Returns true if the string is a iban
+        /// </summary>
+        /// <param name="str"></param>
+        public static bool IsValidIban(this string str)
+        {
+            return Regex.Match(str,
+                @"[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}",
+                RegexOptions.IgnoreCase).Success;
+        }
+
+        /// <summary>
+        /// Returns true if the string is a url path
+        /// </summary>
+        /// <param name="str"></param>
+        public static bool IsValidUrl(this string str)
+        {
+            return Regex.Match(str,
+                @"http(s)?://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?",
+                RegexOptions.IgnoreCase).Success;
+        }
+
+        /// <summary>
+        ///  This method clears string from Html Tags or from <script></script> block
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="mode">CleanTextMode option: AllHtmlTags/ScriptTags</param>
+        /// <exception cref="T:System.ArgumentOutOfRangeException">Thrown when a not supported value is passed for <paramref name="mode"/></exception>  
+        /// <returns>Cleared string</returns>
+        public static string CleanText(this string input,CleanTextMode mode)
+        {
+            return mode switch
+            {
+                CleanTextMode.AllHtmlTags => input.StripHtml(),
+                CleanTextMode.ScriptTagx => input.RemoveScriptTag(),
+                _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null),
+            };
+        }
+
+        /// <summary>
+        /// Gets the matches between delimiters.
+        /// </summary>
+        /// <param name="input">The source string.</param>
+        /// <param name="beginDelim">The beginning string delimiter.</param>
+        /// <param name="endDelim">The end string delimiter.</param>
+        /// <returns></returns>
+
+        public static IEnumerable<string> ExtractBetween(this string input,string beginDelim, string endDelim)
+        {
+            var reg = new Regex($"(?<={Regex.Escape(beginDelim)})(.+?)(?={Regex.Escape(endDelim)})");
+            var matches = reg.Matches(input);
+            return (from Match m in matches select m.Value).ToList();
+        }
+
+        /// <summary>
+        /// Check the string for possible SqlInjection.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static bool IsSqlInjection(this string input)
+        {
+            string[] sqlCheckList = {
+                "char","nchar","varchar","nvarchar", "alter","begin","cast","create",
+                "cursor","declare","delete","drop", "end","exec","execute","fetch","insert",
+                "kill","select","sys","sysobjects","syscolumns","table","update"
+            };
+
+            var checkString = input.ToLower().Replace("'", "''");
+            for (var i = 0; i <= sqlCheckList.Length - 1; i++)
+            {
+                if (Regex.IsMatch(checkString, $"\\b{sqlCheckList[i]}\\b"))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Returns an int from an input string.
+        ///  </summary>
+        /// <returns></returns>
+        public static int ToInt32(this string value,CultureInfo culture = null)
+        {
+            var isValidInt = int.TryParse(value, NumberStyles.AllowThousands |
+                                                    NumberStyles.AllowParentheses |
+                                                    NumberStyles.AllowCurrencySymbol|
+                                                    NumberStyles.AllowLeadingSign, culture ?? CultureInfo.CurrentCulture,
+                out var result);
+
+            return isValidInt ? result : 0;
         }
     }
 }

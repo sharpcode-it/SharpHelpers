@@ -1,4 +1,6 @@
-﻿using System;
+﻿// (c) 2019 SharpCoding
+// This code is licensed under MIT license (see LICENSE.txt for details)
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,11 +13,14 @@ namespace SharpCoding.SharpHelpers
         /// </summary>
         /// <param name="list"></param>
         /// <param name="propertySelector"></param>
+        /// <exception cref="System.ArgumentNullException">throw when <paramref name="list"/> is null</exception>
         /// <returns></returns>
-        public static IEnumerable<T> DistinctBy<T>(this List<T> list, Func<T, object> propertySelector)
+        public static IEnumerable<T> DistinctBy<T>(this IEnumerable<T> enumerable, Func<T, object> propertySelector)
         {
+            if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
             if (propertySelector == null) throw new ArgumentNullException(nameof(propertySelector));
-            return list
+
+            return enumerable
                  .GroupBy(propertySelector)
                  .Select(x => x.First());
         }
@@ -26,9 +31,11 @@ namespace SharpCoding.SharpHelpers
         /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
         /// <returns></returns>
-        public static IEnumerable<T> DistinctBy<T>(this List<T> list)
+        public static IEnumerable<T> DistinctBy<T>(this IEnumerable<T> enumerable)
         {
-            return list
+            if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
+
+            return enumerable
                 .GroupBy(x => x)
                 .Select(x => x.First());
         }
@@ -40,13 +47,18 @@ namespace SharpCoding.SharpHelpers
         /// <param name="list"></param>
         /// <param name="propertySelector"></param>
         /// <returns></returns>
-        public static IEnumerable<T> GetDuplicates<T>(this List<T> list, Func<T, object> propertySelector)
+        public static IEnumerable<T> GetDuplicates<T>(this IEnumerable<T> enumerable, Func<T, object> propertySelector)
         {
-            if (propertySelector == null) throw new ArgumentNullException(nameof(propertySelector));
-            return (IEnumerable<T>) list
-                .GroupBy(propertySelector)
-                .Select(g => new { Value = g.Key, Count = g.Count() })
-                .OrderByDescending(x => x.Count);
+                if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
+                if (propertySelector == null) throw new ArgumentNullException(nameof(propertySelector));
+
+                var enumer = enumerable
+                     .GroupBy(propertySelector)
+                     .Where(k=>k.Count()>1)
+                     .Select(g =>(T)g.First());
+          
+            return enumer;
+             
         }
 
         /// <summary>
@@ -56,14 +68,15 @@ namespace SharpCoding.SharpHelpers
         /// <param name="list"></param>
         /// <param name="propertySelector"></param>
         /// <returns></returns>
-        public static int CountDuplicates<T>(this List<T> list, Func<T, object> propertySelector)
+        public static int CountDuplicates<T>(this IEnumerable<T> enumerable, Func<T, object> propertySelector)
         {
+            if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
             if (propertySelector == null) throw new ArgumentNullException(nameof(propertySelector));
-            return list
-                .GroupBy(propertySelector)
-                .Select(g => new { Value = g.Key, Count = g.Count() })
-                .OrderByDescending(x => x.Count)
-                .Count();
+
+            return enumerable
+                .GroupBy(propertySelector).Where(k => k.Count() > 1)
+                .Select(g => g.Count()).Sum();
+               
         }
 
         /// <summary>
@@ -74,16 +87,18 @@ namespace SharpCoding.SharpHelpers
         /// <param name="index"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static bool AddOrSet<T>(this List<T> list, int index, T value)
-        {
-            if (list == null) throw new ArgumentNullException(nameof(list));
-            if (list.Count < index) return false;
-            if (list.Count > index)
+        public static bool AddOrSet<T>(this IEnumerable<T> enumerable, int index, T value)
+        {   
+            if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
+            
+            if ((enumerable as List<T>).Count < index) return false;
+            if ((enumerable as List<T>).Count > index)
             {
-                list[index] = value;
+                (enumerable as List<T>)[index] = value;
                 return true;
             }
-            list.Add(value);
+            (enumerable as List<T>).Add(value);
+            
             return true;
         }
 
@@ -93,9 +108,11 @@ namespace SharpCoding.SharpHelpers
         /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
         /// <returns></returns>
-        public static bool IsSerializable<T>(this List<T> list)
+        public static bool IsSerializable<T>(this IEnumerable<T> enumerable)
         {
-            return list != null && list.All(item => item.GetType().IsSerializable);
+            if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
+
+            return enumerable.All(item => item.GetType().IsSerializable);
         }
 
         /// <summary>
@@ -105,9 +122,11 @@ namespace SharpCoding.SharpHelpers
         /// <param name="list"></param>
         /// <param name="delimiter"></param>
         /// <returns></returns>
-        public static string ToString<T>(this List<T> list, string delimiter)
+        public static string ToString<T>(this IEnumerable<T> enumerable, string delimiter)
         {
-            return string.Join(delimiter, list.ToArray());
+            if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
+
+            return string.Join(delimiter, enumerable.ToArray());
         }
 
         /// <summary>
@@ -117,10 +136,11 @@ namespace SharpCoding.SharpHelpers
         /// <param name="list"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        public static IEnumerable<List<T>> Split<T>(this List<T> list, int size)
+        public static IEnumerable<List<T>> Split<T>(this IEnumerable<T> enumerable, int size)
         {
-            if (list == null) throw new ArgumentNullException(nameof(list));
-            if (size < 0) throw new ArgumentNullException(nameof(size));
+            if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
+            if (size < 0) throw new ArgumentException(nameof(size));
+            var list = enumerable.ToList();
             var splitList = new List<List<T>>();
             for (var i = 0; i < list.Count; i += size)
             {

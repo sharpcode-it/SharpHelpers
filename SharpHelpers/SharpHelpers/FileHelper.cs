@@ -1,4 +1,6 @@
-﻿using System;
+﻿// (c) 2019 SharpCoding
+// This code is licensed under MIT license (see LICENSE.txt for details)
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -12,7 +14,7 @@ namespace SharpCoding.SharpHelpers
         /// <param name="fileUrl"></param>
         public static void SafeDelete(string fileUrl)
         {
-            if ((string.IsNullOrEmpty(fileUrl)) || (!File.Exists(fileUrl)))
+            if (string.IsNullOrEmpty(fileUrl) || (!File.Exists(fileUrl)))
                 return;
 
             if (!FileInUse(fileUrl)) File.Delete(fileUrl);
@@ -133,6 +135,22 @@ namespace SharpCoding.SharpHelpers
 
             // returns string array of relevant file names
             return allFiles;
+        }
+
+        /// <summary>
+        /// Return the file size metric
+        /// </summary>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        public static string ToFileSize(this long size)
+        {
+            if (size < 1024) { return (size).ToString("F0") + " bytes"; }
+            if (size < Math.Pow(1024, 2)) { return (size / 1024).ToString("F0") + "KB"; }
+            if (size < Math.Pow(1024, 3)) { return (size / Math.Pow(1024, 2)).ToString("F0") + "MB"; }
+            if (size < Math.Pow(1024, 4)) { return (size / Math.Pow(1024, 3)).ToString("F0") + "GB"; }
+            if (size < Math.Pow(1024, 5)) { return (size / Math.Pow(1024, 4)).ToString("F0") + "TB"; }
+            if (size < Math.Pow(1024, 6)) { return (size / Math.Pow(1024, 5)).ToString("F0") + "PB"; }
+            return (size / Math.Pow(1024, 6)).ToString("F0") + "EB";
         }
     }
 

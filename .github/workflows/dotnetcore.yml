@@ -1,0 +1,59 @@
+name: .NET Core
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Setup .NET Core 3.1
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.100
+     
+    - name: Setup .NET Core 2.2
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 2.2.402
+        
+    - name: dotnet version
+      run:  dotnet --version
+      
+    - name: Build with dotnet
+      run:  dotnet build --configuration Release ./SharpHelpers/SharpHelpers.sln
+
+    - name: dotnet test
+      run: dotnet test ./SharpHelpers/SharpHelpers.sln -c Release --no-build
+
+    - name: dotnet pack
+      run: dotnet pack ./SharpHelpers/SharpHelpers.sln -c Release --no-build
+
+    - name: setup nuget
+      if: github.event_name == 'push' && github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/v')
+      uses: NuGet/setup-nuget@v1.0.2
+      with:
+        nuget-version: latest
+
+    - name: add package repository
+      if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+      run: nuget source Add -Config ./SharpHelpers/SharpHelpers/nuget.config -Name "github" -Source https://nuget.pkg.github.com/sharpcode-it/index.json -UserName iscifoni -Password ${{ secrets.GITHUB_TOKEN }} -StorePasswordInClearText
+
+    - name: Publish nuget to GitHub Packages
+      if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+      run: |
+          for f in ./SharpHelpers/SharpHelpers/bin/Release/*.nupkg
+          do
+            curl --silent --show-error --fail -vX PUT -u "iscifoni:${{ secrets.GITHUB_TOKEN }}" -F package=@$f https://nuget.pkg.github.com/shaprcode-it/
+            if [ $? -eq 0 ]
+            then
+              echo "successfully pushed $f"
+            else
+              echo "failed to push $f" >&2
+              exit 1
+            fi
+          done
+          
+      shell: bash

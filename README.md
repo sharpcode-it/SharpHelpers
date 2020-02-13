@@ -5,7 +5,7 @@
 
 SharpHelpers is a collections of some handy code packages and tutorials to make developer's life easier.
 
-Get SharpHelpers::
+Get SharpHelpers:
 
 	git clone git://github.com/sharpcodingIT/SharpHelpers/
 	
@@ -22,8 +22,12 @@ The project contains several helpers for the manipulation and management of diff
 - Registry
 - String
 - List
+- Dictionary
 - Stream
 - Object
+- DateTime
+- Regex
+- XmlDocument
 	
 --------------------------------------
 ## Contributing

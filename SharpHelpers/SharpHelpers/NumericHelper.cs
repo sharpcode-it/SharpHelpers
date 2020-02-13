@@ -1,4 +1,6 @@
-﻿using System;
+﻿// (c) 2019 SharpCoding
+// This code is licensed under MIT license (see LICENSE.txt for details)
+using System;
 
 namespace SharpCoding.SharpHelpers
 {
@@ -31,7 +33,7 @@ namespace SharpCoding.SharpHelpers
         /// <param name="numberToCheck"></param>
         /// <returns></returns>
         public static bool IsPrime(this int numberToCheck)
-        {            
+        {
             var limit = Math.Ceiling(Math.Sqrt(numberToCheck));
             for (var i = 2; i <= limit; i++)
             {

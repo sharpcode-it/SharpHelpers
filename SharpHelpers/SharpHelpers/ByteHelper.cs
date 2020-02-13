@@ -1,10 +1,12 @@
-﻿using System.IO;
+﻿// (c) 2019 SharpCoding
+// This code is licensed under MIT license (see LICENSE.txt for details)
+using System.IO;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SharpCoding.SharpHelpers
 {
-   
-    public static class ByteExtension
+    public static class ByteHerlper
     {  
         /// <summary>
         /// Given a byte array, this method returns the specified object 
@@ -47,6 +49,22 @@ namespace SharpCoding.SharpHelpers
                 var binaryFormatter = new BinaryFormatter();
                 binaryFormatter.Serialize(memoryStream, value);
                 return memoryStream.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// Given an object, this method returns a byte array
+        /// </summary>
+        /// <param name="istance"></param>
+        /// <returns></returns>
+        public static T FromByteArrayTo<T>(this byte[] istance)
+        {
+            if (!typeof(T).IsSerializable) throw new SerializationException($"A {typeof(T)} object was not serializable");
+
+            using (var memoryStream = new MemoryStream())
+            {
+                var binaryFormatter = new BinaryFormatter();
+                return (T)binaryFormatter.Deserialize(memoryStream);
             }
         }
     }

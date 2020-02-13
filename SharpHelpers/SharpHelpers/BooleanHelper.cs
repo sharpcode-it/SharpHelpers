@@ -1,4 +1,6 @@
-﻿namespace SharpCoding.SharpHelpers
+﻿// (c) 2019 SharpCoding
+// This code is licensed under MIT license (see LICENSE.txt for details)
+namespace SharpCoding.SharpHelpers
 {
     public static class BooleanHelper
     {
@@ -40,6 +42,8 @@
         /// This method maps the instance value in one of the two parameters
         /// </summary>
         /// <param name="value"></param>
+        /// <param name="trueValue"></param>
+        /// <param name="falseValue"></param>
         /// <returns></returns>
         public static string ToStringValues(this bool? value, string trueValue, string falseValue)
         {
