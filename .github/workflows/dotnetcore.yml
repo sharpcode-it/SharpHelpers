@@ -36,3 +36,11 @@ jobs:
       uses: NuGet/setup-nuget@v1.0.2
       with:
         nuget-version: latest
+
+    - name: add package repository
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      run: nuget source Add -Config nuget.config -Name github -Source https://nuget.pkg.github.com/sharpcode-it/index.json -UserName iscifoni -Password ${{ secrets.GITHUB_TOKEN }} -StorePasswordInClearText
+
+    - name: push packages
+      if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+      run: dotnet nuget push **/*.nupkg -s https://nuget.pkg.github.com/sharpcode-it/index.json --skip-duplicate
