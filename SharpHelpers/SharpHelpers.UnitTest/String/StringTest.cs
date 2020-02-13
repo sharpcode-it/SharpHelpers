@@ -278,10 +278,10 @@ namespace SharpHelpers.UnitTest.String
             Assert.IsTrue(testInput.ToInt32() == -17);
 
             testInput = "€17";
-            Assert.IsTrue(testInput.ToInt32() == 17);
+            Assert.IsTrue(testInput.ToInt32(new CultureInfo("it-IT")) == 17);
 
             testInput = "1.700";
-            Assert.IsTrue(testInput.ToInt32() == 1700);
+            Assert.IsTrue(testInput.ToInt32(new CultureInfo("it-IT")) == 1700);
 
             //Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
             testInput = "$17";
