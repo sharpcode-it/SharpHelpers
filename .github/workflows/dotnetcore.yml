@@ -44,8 +44,16 @@ jobs:
     - name: Publish nuget to GitHub Packages
       if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
       run: |
-           for f in ./SharpHelpers/SharpHelpers/bin/Release/*.nupkg
-           do
-             curl -vX PUT -u "iscifoni:${{ secrets.PackagesToken }}" -F package=@$f https://nuget.pkg.github.com/sharpcode-it/
-           done
+          for f in ./SharpHelpers/SharpHelpers/bin/Release/*.nupkg
+          do
+            curl --silent --show-error --fail -vX PUT -u "iscifoni:${{ secrets.GITHUB_TOKEN }}" -F package=@$f https://nuget.pkg.github.com/shaprcode-it/
+            if [ $? -eq 0 ]
+            then
+              echo "successfully pushed $f"
+            else
+              echo "failed to push $f" >&2
+              exit 1
+            fi
+          done
+          
       shell: bash
