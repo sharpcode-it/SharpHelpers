@@ -9,15 +9,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Setup .NET Core 3.1
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.100
      
     - name: Setup .NET Core 2.2
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 2.2.402
+    
+    - name: Setup .NET Core 3.1
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.100
         
     - name: dotnet version
       run:  dotnet --version
@@ -61,7 +62,7 @@ jobs:
     - name: Install GitVersion
       uses: gittools/actions/gitversion/setup@v0.9
       with:
-          versionSpec: '5.0.x'
+          versionSpec: '5.1.x'
           
     - name: Use GitVersion
       id: gitversion # step id used as reference for output values
