@@ -70,7 +70,7 @@ jobs:
     - name: push packages (nuget)
       if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/v')
       run: |
-        for f in ./artifacts/*.nupkg
+        for f in ./SharpHelpers/SharpHelpers/bin/Release/*.nupkg
         do
           nuget push $f -source https://api.nuget.org/v3/index.json -ApiKey ${{ secrets.NUGET_TOKEN }}
           if [ $? -eq 0 ]
