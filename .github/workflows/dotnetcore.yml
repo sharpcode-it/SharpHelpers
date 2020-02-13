@@ -43,4 +43,4 @@ jobs:
 
     - name: push packages
       if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
-      run: dotnet nuget push **/*.nupkg --source "github"
+      run: dotnet nuget push **/*.nupkg --source github
