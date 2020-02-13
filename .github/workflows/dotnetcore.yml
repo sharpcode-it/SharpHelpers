@@ -46,6 +46,6 @@ jobs:
       run: |
            for f in ./SharpHelpers/SharpHelpers/SharpHelpers/SharpHelpers/bin/Release/*.nupkg
            do
-             curl -vX PUT -u "vslee:${{ secrets.GHPackagesToken }}" -F package=@$f https://nuget.pkg.github.com/sharpcode-it/
+             curl -vX PUT -u "iscifoni:${{ secrets.PackagesToken }}" -F package=@$f https://nuget.pkg.github.com/sharpcode-it/
            done
       shell: bash
