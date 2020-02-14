@@ -369,10 +369,29 @@ namespace SharpCoding.SharpHelpers
             var isValidInt = int.TryParse(value, NumberStyles.AllowThousands |
                                                     NumberStyles.AllowParentheses |
                                                     NumberStyles.AllowCurrencySymbol|
-                                                    NumberStyles.AllowLeadingSign, culture ?? CultureInfo.CurrentCulture,
+                                                    NumberStyles.AllowLeadingSign|
+                                                    NumberStyles.AllowExponent, culture ?? CultureInfo.CurrentCulture,
                 out var result);
 
             return isValidInt ? result : 0;
         }
+
+        /// <summary>
+        /// Returns an int from an input string.
+        ///  </summary>
+        /// <returns></returns>
+        public static long ToInt64(this string value,CultureInfo culture = null)
+        {
+            var isValidInt = long.TryParse(value, NumberStyles.AllowThousands |
+                                                 NumberStyles.AllowParentheses |
+                                                 NumberStyles.AllowCurrencySymbol|
+                                                 NumberStyles.AllowLeadingSign|
+                                                 NumberStyles.AllowExponent, culture ?? CultureInfo.CurrentCulture,
+                out var result);
+
+            return isValidInt ? result : 0;
+        }
+
+
     }
 }

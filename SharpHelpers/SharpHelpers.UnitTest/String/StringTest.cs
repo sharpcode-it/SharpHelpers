@@ -1,6 +1,7 @@
 ﻿// (c) 2019 SharpCoding
 // This code is licensed under MIT license (see LICENSE.txt for details)
 
+using System;
 using System.Globalization;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -289,6 +290,21 @@ namespace SharpHelpers.UnitTest.String
 
             testInput = "1,700";
             Assert.IsTrue(testInput.ToInt32(new CultureInfo("en-US")) == 1700);
+        }
+
+        [TestMethod]
+        public void TestToInt64()
+        {
+            var testInput = "2.147.483.648";
+
+            Assert.IsTrue(Math.Abs(testInput.ToInt64(new CultureInfo("it-IT")) - 2147483648) <= 0);
+
+            testInput = "-170000000000";
+            Assert.IsTrue(testInput.ToInt64() == -170000000000);
+
+            testInput = "17E5";
+            Assert.IsTrue(Math.Abs(testInput.ToInt64() - (17E5)) <= 0);
+
         }
     }
 }
