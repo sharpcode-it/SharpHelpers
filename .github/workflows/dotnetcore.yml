@@ -9,6 +9,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+    
     - name: Setup .NET Core 3.1
       uses: actions/setup-dotnet@v1
       with:
@@ -17,11 +18,19 @@ jobs:
     - name: Setup .NET Core 2.2
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 2.2.402
-        
+        dotnet-version: 2.2.402    
+    
     - name: dotnet version
       run:  dotnet --version
       
+    - name: Run GitVersion
+      uses: roryprimrose/rungitversion@v1.0.0
+      with:
+        # "true" to use GitVersion /nofetch, any other value to enable fetch
+        nofetch: false
+        # "true" to use GitVersion /nocache, any other value to enable cache
+        nocache: false
+
     - name: Build with dotnet
       run:  dotnet build --configuration Release ./SharpHelpers/SharpHelpers.sln
 
@@ -32,13 +41,13 @@ jobs:
       run: dotnet pack ./SharpHelpers/SharpHelpers.sln -c Release --no-build
 
     - name: setup nuget
-      if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+      if: github.event_name == 'push' && github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/v')
       uses: NuGet/setup-nuget@v1.0.2
       with:
         nuget-version: latest
 
     - name: add package repository
-      if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+      if: github.event_name == 'push' && github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/v')
       run: nuget source Add -Config ./SharpHelpers/SharpHelpers/nuget.config -Name "github" -Source https://nuget.pkg.github.com/sharpcode-it/index.json -UserName iscifoni -Password ${{ secrets.GITHUB_TOKEN }} -StorePasswordInClearText
 
     - name: Publish nuget to GitHub Packages
@@ -57,3 +66,18 @@ jobs:
           done
           
       shell: bash
+    - name: push packages (nuget)
+      if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/v')
+      run: |
+        for f in ./SharpHelpers/SharpHelpers/bin/Release/*.nupkg
+        do
+          nuget push $f -source https://api.nuget.org/v3/index.json -ApiKey ${{ secrets.NUGET_TOKEN }}
+          if [ $? -eq 0 ]
+          then
+            echo "successfully pushed $f"
+          else
+            echo "failed to push $f" >&2
+            exit 1
+          fi
+        done
+

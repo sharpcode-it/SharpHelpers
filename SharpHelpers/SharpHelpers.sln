@@ -1,11 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29020.237
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.645
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpHelpers", "SharpHelpers\SharpHelpers.csproj", "{0B9C8349-C268-46BE-85C7-CBBF125C120B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpHelpers.UnitTest", "SharpHelpers.UnitTest\SharpHelpers.UnitTest.csproj", "{C710CF35-11A0-4BF8-9DF2-52CD89AB7721}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{277459D1-C8B8-407C-A8E2-B2619DD402B6}"
+	ProjectSection(SolutionItems) = preProject
+		..\build\version.props = ..\build\version.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

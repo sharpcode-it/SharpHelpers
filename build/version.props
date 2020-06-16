@@ -1,0 +1,11 @@
+<!-- This file may be overwritten by automation. Only values allowed here are VersionPrefix and VersionSuffix.  -->
+<Project>
+	<PropertyGroup>
+		<VersionPrefix>1.0.0</VersionPrefix>
+		<VersionSuffix>preview3</VersionSuffix>
+		<BuildNumber>-01</BuildNumber>
+	</PropertyGroup>
+	<PropertyGroup Label="Package Versions">
+		<NetStandardPackageVersion>netstandard2.0</NetStandardPackageVersion>
+	</PropertyGroup>
+</Project>
