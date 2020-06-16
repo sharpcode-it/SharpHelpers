@@ -66,7 +66,6 @@ jobs:
           done
           
       shell: bash
-  
     - name: push packages (nuget)
       if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/v')
       run: |
@@ -81,3 +80,4 @@ jobs:
             exit 1
           fi
         done
+
