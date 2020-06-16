@@ -61,7 +61,7 @@ namespace SharpCoding.SharpHelpers
         {
             if (!typeof(T).IsSerializable) throw new SerializationException($"A {typeof(T)} object was not serializable");
 
-            using (var memoryStream = new MemoryStream())
+            using (var memoryStream = new MemoryStream(istance))
             {
                 var binaryFormatter = new BinaryFormatter();
                 return (T)binaryFormatter.Deserialize(memoryStream);
