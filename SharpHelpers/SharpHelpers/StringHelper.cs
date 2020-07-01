@@ -4,9 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
+using System.Web;
 using SharpCoding.SharpHelpers.DomainModel;
 using SharpCoding.SharpHelpers.PrivateMethods;
 
@@ -307,7 +309,7 @@ namespace SharpCoding.SharpHelpers
         ///  This method clears string from Html Tags or from <script></script> block
         /// </summary>
         /// <param name="input"></param>
-        /// <param name="mode">CleanTextMode option: AllHtmlTags/ScriptTags</param>
+        /// <param name="mode">CleanTextMode option: AllHtmlTags/ScriptTags/None</param>
         /// <exception cref="T:System.ArgumentOutOfRangeException">Thrown when a not supported value is passed for <paramref name="mode"/></exception>  
         /// <returns>Cleared string</returns>
         public static string CleanText(this string input,CleanTextMode mode)
@@ -316,8 +318,21 @@ namespace SharpCoding.SharpHelpers
             {
                 CleanTextMode.AllHtmlTags => input.StripHtml(),
                 CleanTextMode.ScriptTagx => input.RemoveScriptTag(),
-                _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null),
+                CleanTextMode.None => input,
+                _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null)
             };
+        }
+
+        /// <summary>
+        ///  This method converts a string to an HTML-encoded string and clears it <see cref="CleanText"/>
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="mode">CleanTextMode option: AllHtmlTags/ScriptTags</param>
+        /// <exception cref="T:System.ArgumentOutOfRangeException">Thrown when a not supported value is passed for <paramref name="mode"/></exception>  
+        /// <returns>Cleared and HTML-encoded string</returns>
+        public static string HtmlEncode(this string input, CleanTextMode mode)
+        {
+            return string.IsNullOrEmpty(input) ? input : HttpUtility.HtmlEncode(input.CleanText(mode));
         }
 
         /// <summary>

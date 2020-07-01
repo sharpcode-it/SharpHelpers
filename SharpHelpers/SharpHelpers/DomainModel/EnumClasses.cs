@@ -5,6 +5,7 @@ namespace SharpCoding.SharpHelpers.DomainModel
     public enum CleanTextMode
     {
         AllHtmlTags,
-        ScriptTagx
+        ScriptTagx,
+        None
     }
 }
