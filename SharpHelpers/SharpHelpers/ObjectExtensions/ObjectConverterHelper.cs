@@ -104,6 +104,13 @@ namespace SharpCoding.SharpHelpers.ObjectExtensions
             return rtn.PadLeft(5, '0');
         }
 
+        public static Guid ToGuid(this object value)
+        {
+            var isValidLong = Guid.TryParse(value.ToString(), out var result);
+
+            return isValidLong ? result : Guid.Empty;
+        }
+
         /// <summary>
         /// This method returns the byte array of the specific object
         /// </summary>
@@ -114,11 +121,9 @@ namespace SharpCoding.SharpHelpers.ObjectExtensions
             if (obj == null) return null;
 
             var binaryFormatter = new BinaryFormatter();
-            using (var memoryStream = new MemoryStream())
-            {
-                binaryFormatter.Serialize(memoryStream, obj);
-                return memoryStream.ToArray();
-            }
+            using var memoryStream = new MemoryStream();
+            binaryFormatter.Serialize(memoryStream, obj);
+            return memoryStream.ToArray();
         }
     }
 }
