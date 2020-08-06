@@ -36,16 +36,6 @@ namespace SharpCoding.SharpHelpers
                  IsSystemType(type.GetGenericArguments()[0]));
         }
 
-        public static string ToJson(this object istance)
-        {
-            return istance == null ? string.Empty : JsonConvert.SerializeObject(istance);
-        }
-
-        public static T FromJson<T>(this string istance) where T : class
-        {
-            return string.IsNullOrEmpty(istance) ? null : JsonConvert.DeserializeObject<T>(istance);
-        }
-
         public static MemoryStream SerializeToStream(this object obj)
         {
             using var stream = new MemoryStream();

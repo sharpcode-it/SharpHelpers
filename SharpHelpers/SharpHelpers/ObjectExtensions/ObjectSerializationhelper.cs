@@ -16,7 +16,10 @@ namespace SharpCoding.SharpHelpers.ObjectExtensions
         /// <returns></returns>
         public static string SerializeToJson(this object istance)
         {
-            return istance == null ? string.Empty : JsonConvert.SerializeObject(istance);
+            return istance == null
+                ? string.Empty
+                : JsonConvert.SerializeObject(istance,
+                    new JsonSerializerSettings {ReferenceLoopHandling = ReferenceLoopHandling.Ignore});
         }
 
         /// <summary>
@@ -27,7 +30,10 @@ namespace SharpCoding.SharpHelpers.ObjectExtensions
         /// <returns></returns>
         public static T DeserializeFromJson<T>(this string istance) where T : class
         {
-            return string.IsNullOrEmpty(istance) ? default : JsonConvert.DeserializeObject<T>(istance);
+            return string.IsNullOrEmpty(istance)
+                ? default
+                : JsonConvert.DeserializeObject<T>(istance,
+                    new JsonSerializerSettings {ReferenceLoopHandling = ReferenceLoopHandling.Ignore});
         }
 
         /// <summary>

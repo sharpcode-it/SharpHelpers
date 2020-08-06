@@ -260,6 +260,13 @@ namespace SharpCoding.SharpHelpers
                 RegexOptions.IgnoreCase).Success;
         }
 
+        public static Guid ToGuid(this string istance)
+        {
+            if (string.IsNullOrEmpty(istance)) return default;
+
+            return Guid.TryParse(istance,out var result) ? result : default;
+        }
+
         /// <summary>
         /// Count the specific word in a given string
         /// </summary>
