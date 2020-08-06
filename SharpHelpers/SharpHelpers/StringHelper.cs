@@ -155,6 +155,17 @@ namespace SharpCoding.SharpHelpers
             return substr;
         }
 
+        public static string Truncate(this string istance, int maxLength, string suffix = "...")
+        {
+            if (string.IsNullOrEmpty(istance)) return string.Empty;
+            var temStr = istance.StripHtml();
+            var minValue = Math.Min(temStr.Length, maxLength);
+            if (temStr.Length <= minValue) return temStr;
+            var myTempStr = temStr.Substring(0, minValue).TrimEnd();
+            var firstSpaceFromRight = myTempStr.LastIndexOf(" ", StringComparison.OrdinalIgnoreCase);
+            return myTempStr.Substring(0, firstSpaceFromRight) + suffix;
+        }
+
         /// <summary>
         /// The method parses the instance to a nullable int
         /// </summary>
