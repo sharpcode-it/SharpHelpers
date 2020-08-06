@@ -1,5 +1,12 @@
-# SharpHelpers (SharpCoding Community Library)
 [![Github license](mit.svg)](https://github.com/sharpcode-it/SharpHelpers/blob/master/LICENSE)
+
+|Version|Status|
+|:-:|:-:|
+|Develop|![.NET Core](https://github.com/sharpcode-it/SharpHelpers/workflows/.NET%20Core/badge.svg?branch=develop)|
+|Master|![.NET Core](https://github.com/sharpcode-it/SharpHelpers/workflows/.NET%20Core/badge.svg?branch=master)|
+|v1.0|![.NET Core](https://github.com/sharpcode-it/SharpHelpers/workflows/.NET%20Core/badge.svg?branch=v1.0)|
+
+# SharpHelpers (SharpCoding Community Library)
 --------------------------------------
 ## What is this?
 
