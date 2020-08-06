@@ -18,7 +18,7 @@ namespace SharpCoding.SharpHelpers.ObjectExtensions
             return valueTemp.ToInt32();
         }
 
-        public static int ToInt32(this Enum istance )
+        public static int ToInt32(this Enum istance)
         {
             return Convert.ToInt32(istance);
         }
@@ -39,7 +39,7 @@ namespace SharpCoding.SharpHelpers.ObjectExtensions
             return valueTemp.ToInt64();
         }
 
-        public static long ToInt64(this Enum istance )
+        public static long ToInt64(this Enum istance)
         {
             return Convert.ToInt64(istance);
         }
@@ -54,7 +54,7 @@ namespace SharpCoding.SharpHelpers.ObjectExtensions
         {
             return bool.TryParse(istance, out var outValue) && outValue;
         }
-        
+
         public static DateTime ToDateTime(this string istance)
         {
             return DateTime.TryParse(istance, out var outValue) ? outValue : default;
@@ -62,12 +62,12 @@ namespace SharpCoding.SharpHelpers.ObjectExtensions
 
         public static T ToEnum<T>(this string istance)
         {
-            return (T) Enum.Parse(typeof (T), istance);
+            return (T)Enum.Parse(typeof(T), istance);
         }
 
-        public static T ToObject<T>(this byte[] istance) where T:class
+        public static T ToObject<T>(this byte[] istance) where T : class
         {
-            return (T) istance.ToObject();
+            return (T)istance.ToObject();
         }
 
         private static object ToObject(this byte[] istance)
@@ -75,7 +75,7 @@ namespace SharpCoding.SharpHelpers.ObjectExtensions
             using (var memoryStream = new MemoryStream(istance))
             {
                 var binaryFormatter = new BinaryFormatter();
-                
+
                 return binaryFormatter.Deserialize(memoryStream);
             }
         }

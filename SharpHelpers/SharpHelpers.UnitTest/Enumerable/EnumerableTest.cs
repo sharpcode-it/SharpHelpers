@@ -2,7 +2,6 @@
 // This code is licensed under MIT license (see LICENSE.txt for details)
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpCoding.SharpHelpers;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,12 +23,12 @@ namespace SharpHelpers.UnitTest.Enumerable
         [TestMethod]
         public void TestDistinctBy()
         {
-            var list = new List<int> {10, 5, 10, 6};
+            var list = new List<int> { 10, 5, 10, 6 };
             var result = list.DistinctBy().ToList();
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Count < list.Count);
         }
- 
+
         [TestMethod]
         public void TestDistinctByPropertySelector()
         {
@@ -38,8 +37,8 @@ namespace SharpHelpers.UnitTest.Enumerable
             var l3 = new List<int>() { 10, 11 };
             var l4 = new List<int>() { 6, 5, 5 };
 
-            var list = new List<List<int>>(){l1 ,l2 ,l3 ,l4 };
-           
+            var list = new List<List<int>>() { l1, l2, l3, l4 };
+
             var result = list.DistinctBy(p => p.Count).ToList();
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Count < list.Count);
@@ -61,8 +60,8 @@ namespace SharpHelpers.UnitTest.Enumerable
             var result = list.ToString(",");
             Assert.IsNotNull(result);
         }
-      
-       [TestMethod]
+
+        [TestMethod]
         public void TestIsSerializable()
         {
             var list = new List<int> { 10, 5, 10, 6 };
@@ -80,14 +79,14 @@ namespace SharpHelpers.UnitTest.Enumerable
         {
 
             var list = new List<int> { 10, 5, 10, 6 };
-            var result = list.GetDuplicates(a => a) ;
+            var result = list.GetDuplicates(a => a);
             Assert.IsTrue(result.Count() == 1);
             Assert.IsTrue(result.ToList()[0] == 10);
 
             var listN = new List<NonSerializableObj> { new NonSerializableObj("Obj1"), new NonSerializableObj("Obj3"), new NonSerializableObj("Obj2"), new NonSerializableObj("Obj2") };
             var resultN = listN.GetDuplicates(a => a.Name);
             Assert.IsTrue(resultN.Count() == 1);
-            Assert.AreEqual("Obj2",resultN.ToList()[0].Name);
+            Assert.AreEqual("Obj2", resultN.ToList()[0].Name);
         }
 
         [TestMethod]
@@ -109,10 +108,10 @@ namespace SharpHelpers.UnitTest.Enumerable
 
     public class NonSerializableObj
     {
-      
+
         public string Name { get; set; }
-        
-         public NonSerializableObj(string name)
+
+        public NonSerializableObj(string name)
         {
             this.Name = name;
         }

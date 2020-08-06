@@ -19,12 +19,12 @@ namespace SharpCoding.SharpHelpers.ObjectExtensions
 
         #endregion
 
-        public static T Clone<T>(this object istance,ICollection<string> propertyExcludeList = null)
+        public static T Clone<T>(this object istance, ICollection<string> propertyExcludeList = null)
         {
             if (istance == null)
                 return default;
 
-            return (T) DeepClone(istance,propertyExcludeList);
+            return (T)DeepClone(istance, propertyExcludeList);
         }
 
         public static object Clone(this object istance)
@@ -35,14 +35,14 @@ namespace SharpCoding.SharpHelpers.ObjectExtensions
         #region Privat Method Deep Clone
 
         // Clone the object Properties and its children recursively
-        private static object DeepClone(object istance,ICollection<string> propertyExcludeList = null)
+        private static object DeepClone(object istance, ICollection<string> propertyExcludeList = null)
         {
             var desireObjectToBeCloned = istance;
 
             var primaryType = istance.GetType();
 
             if (primaryType.IsArray)
-                return ((Array) desireObjectToBeCloned).Clone();
+                return ((Array)desireObjectToBeCloned).Clone();
 
             object tObject = desireObjectToBeCloned as IList;
             if (tObject != null)
@@ -51,14 +51,14 @@ namespace SharpCoding.SharpHelpers.ObjectExtensions
                 // Get the IList Type of the object
                 var customList = typeof(List<>).MakeGenericType
                     ((properties[properties.Length - 1]).PropertyType);
-                tObject = (IList) Activator.CreateInstance(customList);
-                var list = (IList) tObject;
+                tObject = (IList)Activator.CreateInstance(customList);
+                var list = (IList)tObject;
                 // loop throw each object in the list and clone it
-                foreach (var item in ((IList) desireObjectToBeCloned))
+                foreach (var item in ((IList)desireObjectToBeCloned))
                 {
                     if (item == null)
                         continue;
-                    var value = DeepClone(item,propertyExcludeList);
+                    var value = DeepClone(item, propertyExcludeList);
                     list?.Add(value);
                 }
             }
@@ -73,8 +73,8 @@ namespace SharpCoding.SharpHelpers.ObjectExtensions
                 var fields = desireObjectToBeCloned.GetType().GetFields(Binding);
                 foreach (var property in fields)
                 {
-                    if((propertyExcludeList!=null) && (propertyExcludeList.Any()))
-                        if (propertyExcludeList.Contains(property.Name.ExtractBetween("<",">")?.FirstOrDefault()))
+                    if ((propertyExcludeList != null) && (propertyExcludeList.Any()))
+                        if (propertyExcludeList.Contains(property.Name.ExtractBetween("<", ">")?.FirstOrDefault()))
                             continue;
 
                     if (property.IsInitOnly) // Validate if the property is a writable one.
@@ -82,7 +82,7 @@ namespace SharpCoding.SharpHelpers.ObjectExtensions
                     var value = property.GetValue(desireObjectToBeCloned);
                     if (property.FieldType.IsClass && property.FieldType != typeof(string))
                         tObject.GetType().GetField(property.Name, Binding)?.SetValue
-                            (tObject, DeepClone(value,propertyExcludeList));
+                            (tObject, DeepClone(value, propertyExcludeList));
                     else
                         tObject.GetType().GetField(property.Name, Binding)?.SetValue(tObject, value);
                 }

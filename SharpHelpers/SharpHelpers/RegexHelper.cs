@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace SharpCoding.SharpHelpers
 {
-   public static class RegexHelper
+    public static class RegexHelper
     {
         /// <summary>
         /// Return true if the value match the Regex pattern

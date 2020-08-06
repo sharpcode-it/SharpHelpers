@@ -78,10 +78,7 @@ namespace SharpCoding.SharpHelpers
         public static DateTime? AsDateTime(this string value, string[] formats)
         {
             if (DateTime.TryParseExact(value, formats, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind,
-                out DateTime utcDateTime))
-            {
-                return utcDateTime;
-            }
+                out var utcDateTime)) return utcDateTime;
 
             return null;
         }

@@ -2,10 +2,10 @@
 // This code is licensed under MIT license (see LICENSE.txt for details)
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpCoding.SharpHelpers;
-using System;
-using System.Collections.Generic;
 using SharpCoding.SharpHelpers.ObjectExtensions;
 using SharpHelpers.UnitTest.Mock;
+using System;
+using System.Collections.Generic;
 using static SharpHelpers.UnitTest.TestClass.JsonClassTest;
 
 namespace SharpHelpers.UnitTest.Object
@@ -17,11 +17,11 @@ namespace SharpHelpers.UnitTest.Object
         public void TestIsSystemType()
         {
             var guid = new Guid();
-        
+
             Assert.IsTrue(guid.GetType().IsSystemType());
-         
+
             var glossary = new Glossary();
-        
+
             Assert.IsFalse(glossary.GetType().IsSystemType());
 
         }
@@ -41,7 +41,7 @@ namespace SharpHelpers.UnitTest.Object
             var f1Str = foo1.SerializeToJson();
             var f2Str = foo2.SerializeToJson();
 
-            Assert.IsTrue(f1Str==f2Str);
+            Assert.IsTrue(f1Str == f2Str);
 
             var foo21 = new Foo2
             {
@@ -56,7 +56,7 @@ namespace SharpHelpers.UnitTest.Object
             var f11Str = foo21.SerializeToJson();
             var f22Str = foo22.SerializeToJson();
 
-            Assert.IsTrue(f11Str==f22Str);
+            Assert.IsTrue(f11Str == f22Str);
 
             var foo31 = new Foo2()
             {
@@ -66,12 +66,12 @@ namespace SharpHelpers.UnitTest.Object
                 FooItem = foo1
             };
 
-            var foo32 = foo31.Clone<Foo2>(new List<string> {"Prop1"});
+            var foo32 = foo31.Clone<Foo2>(new List<string> { "Prop1" });
 
             var f31Str = foo31.SerializeToJson();
             var f32Str = foo32.SerializeToJson();
 
-            Assert.IsTrue(f31Str!=f32Str);
+            Assert.IsTrue(f31Str != f32Str);
             Assert.IsTrue(string.IsNullOrEmpty(foo32.Prop1) && string.IsNullOrEmpty(foo32.FooItem.Prop1));
         }
 

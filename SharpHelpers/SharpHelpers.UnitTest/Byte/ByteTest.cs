@@ -30,7 +30,7 @@ namespace SharpHelpers.UnitTest.Byte
 
             Assert.IsNotNull(str);
 
-            Assert.IsTrue(obj == (string) str);
+            Assert.IsTrue(obj == (string)str);
         }
     }
 }

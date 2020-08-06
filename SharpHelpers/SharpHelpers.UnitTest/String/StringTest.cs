@@ -1,11 +1,10 @@
 ﻿// (c) 2019 SharpCoding
 // This code is licensed under MIT license (see LICENSE.txt for details)
 
-using System.Globalization;
-using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpCoding.SharpHelpers;
 using SharpCoding.SharpHelpers.DomainModel;
+using System.Globalization;
 using static SharpHelpers.UnitTest.TestClass.JsonClassTest;
 
 namespace SharpHelpers.UnitTest.String

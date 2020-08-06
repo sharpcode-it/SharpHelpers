@@ -1,16 +1,15 @@
 ﻿// (c) 2019 SharpCoding
 // This code is licensed under MIT license (see LICENSE.txt for details)
+using Newtonsoft.Json;
+using SharpCoding.SharpHelpers.DomainModel;
+using SharpCoding.SharpHelpers.PrivateMethods;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
-using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 using System.Web;
-using SharpCoding.SharpHelpers.DomainModel;
-using SharpCoding.SharpHelpers.PrivateMethods;
 
 namespace SharpCoding.SharpHelpers
 {
@@ -155,6 +154,23 @@ namespace SharpCoding.SharpHelpers
                 return substr;
             truncated = true;
             return substr;
+        }
+
+        public static string Truncate(this string istance, int maxLength, string suffix = "...")
+        {
+            if (string.IsNullOrEmpty(istance)) return string.Empty;
+
+            var temStr = istance;
+
+            var minValue = Math.Min(temStr.Length, maxLength);
+
+            if (temStr.Length <= minValue) return temStr;
+
+            var myTempStr = temStr.Substring(0, minValue).TrimEnd();
+
+            var firstSpaceFromRight = myTempStr.LastIndexOf(" ", StringComparison.OrdinalIgnoreCase);
+
+            return myTempStr.Substring(0, firstSpaceFromRight) + suffix;
         }
 
         /// <summary>
@@ -312,7 +328,7 @@ namespace SharpCoding.SharpHelpers
         /// <param name="mode">CleanTextMode option: AllHtmlTags/ScriptTags/None</param>
         /// <exception cref="T:System.ArgumentOutOfRangeException">Thrown when a not supported value is passed for <paramref name="mode"/></exception>  
         /// <returns>Cleared string</returns>
-        public static string CleanText(this string input,CleanTextMode mode)
+        public static string CleanText(this string input, CleanTextMode mode)
         {
             return mode switch
             {
@@ -343,7 +359,7 @@ namespace SharpCoding.SharpHelpers
         /// <param name="endDelim">The end string delimiter.</param>
         /// <returns></returns>
 
-        public static IEnumerable<string> ExtractBetween(this string input,string beginDelim, string endDelim)
+        public static IEnumerable<string> ExtractBetween(this string input, string beginDelim, string endDelim)
         {
             var reg = new Regex($"(?<={Regex.Escape(beginDelim)})(.+?)(?={Regex.Escape(endDelim)})");
             var matches = reg.Matches(input);
@@ -379,11 +395,11 @@ namespace SharpCoding.SharpHelpers
         /// Returns an int from an input string.
         ///  </summary>
         /// <returns></returns>
-        public static int ToInt32(this string value,CultureInfo culture = null)
+        public static int ToInt32(this string value, CultureInfo culture = null)
         {
             var isValidInt = int.TryParse(value, NumberStyles.AllowThousands |
                                                     NumberStyles.AllowParentheses |
-                                                    NumberStyles.AllowCurrencySymbol|
+                                                    NumberStyles.AllowCurrencySymbol |
                                                     NumberStyles.AllowLeadingSign, culture ?? CultureInfo.CurrentCulture,
                 out var result);
 
@@ -394,18 +410,18 @@ namespace SharpCoding.SharpHelpers
         /// Returns a long from an input string.
         ///  </summary>
         /// <returns></returns>
-        public static long ToLong(this string value,CultureInfo culture = null)
+        public static long ToLong(this string value, CultureInfo culture = null)
         {
             var isValidLong = long.TryParse(value, NumberStyles.AllowThousands |
                                                  NumberStyles.AllowParentheses |
-                                                 NumberStyles.AllowCurrencySymbol|
+                                                 NumberStyles.AllowCurrencySymbol |
                                                  NumberStyles.AllowLeadingSign, culture ?? CultureInfo.CurrentCulture,
                 out var result);
 
             return isValidLong ? result : 0;
         }
 
-        
+
         /// <summary>
         /// Returns a Guid from  an input string.
         ///  </summary>

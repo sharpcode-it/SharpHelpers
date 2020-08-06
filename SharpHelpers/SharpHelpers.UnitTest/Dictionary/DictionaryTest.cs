@@ -16,24 +16,24 @@ namespace SharpHelpers.UnitTest.Dictionary
         public void TestAddFormat()
         {
             var dic = new Dictionary<int, DateTime>() { { 1, DateTime.Now }, { 2, DateTime.Now } };
-             
+
         }
         [TestMethod]
         public void TestRemoveAll()
         {
             var dic = new Dictionary<int, DateTime>() { { 1, DateTime.Now }, { 2, DateTime.Now } };
-            dic.RemoveAll(a=> a.Key < 2 );
+            dic.RemoveAll(a => a.Key < 2);
             Assert.IsTrue(dic.Count() == 1);
 
         }
         [TestMethod]
         public void TestGetOrCreate()
         {
-            var dic = new Dictionary<int,DateTime>() { { 1, DateTime.Now }, { 2, DateTime.Now} };
+            var dic = new Dictionary<int, DateTime>() { { 1, DateTime.Now }, { 2, DateTime.Now } };
             Assert.IsNotNull(dic.GetOrCreate(1));
             Assert.IsNotNull(dic.GetOrCreate(3));
 
-          
+
         }
     }
 
