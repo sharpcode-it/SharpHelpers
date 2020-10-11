@@ -290,5 +290,23 @@ namespace SharpHelpers.UnitTest.String
             testInput = "1,700";
             Assert.IsTrue(testInput.ToInt32(new CultureInfo("en-US")) == 1700);
         }
+
+        [TestMethod]
+        public void TestRemoveDigits()
+        {
+            var input = "12345test12345 0123";
+            var noDigits = input.RemoveDigits();
+            Assert.IsNotNull(noDigits);
+            Assert.IsTrue(noDigits == "test");
+        }
+
+        [TestMethod]
+        public void TestOnlyDigits()
+        {
+            var input = "12345test12345 0123";
+            var noDigits = input.OnlyDigits();
+            Assert.IsNotNull(noDigits);
+            Assert.IsTrue(noDigits == "12345123450123");
+        }
     }
 }

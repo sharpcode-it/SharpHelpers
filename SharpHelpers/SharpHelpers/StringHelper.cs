@@ -374,5 +374,27 @@ namespace SharpCoding.SharpHelpers
 
             return isValidInt ? result : 0;
         }
+
+        /// <summary>
+        /// Remove all digits from an input string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static string RemoveDigits(this string value)
+        {
+            if (string.IsNullOrEmpty(value)) return value;
+            return Regex.Replace(value, @"[\d-]", string.Empty)?.Trim();
+        }
+
+        /// <summary>
+        /// Remove all chars from an input string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static string OnlyDigits(this string value)
+        {
+            if (string.IsNullOrEmpty(value)) return value;
+            return Regex.Replace(value, @"[^0-9]", string.Empty)?.Trim();
+        }
     }
 }
