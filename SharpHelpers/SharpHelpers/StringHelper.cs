@@ -432,5 +432,12 @@ namespace SharpCoding.SharpHelpers
 
             return isValidLong ? result : Guid.Empty;
         }
+
+        /// <summary></summary>
+        ///
+        public static bool StringEquals(this string value,string valueToCompare,StringComparison compareOption=StringComparison.OrdinalIgnoreCase)
+        {
+            return string.Equals(value, valueToCompare, compareOption);
+        }
     }
 }

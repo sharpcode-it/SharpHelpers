@@ -64,5 +64,22 @@ namespace SharpCoding.SharpHelpers
             }
             return ret;
         }
+
+        /// <summary>
+        /// This method get the value related to the specific key or a default value
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="dictionary"></param>
+        /// <param name="key"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        public static TValue GetOrCreate<TKey, TValue>(this IDictionary<TKey, TValue> dictionary,
+            TKey key, TValue defaultValue) where TValue : new()
+        {
+            if (dictionary == null) throw new ArgumentNullException(nameof(dictionary));
+
+            return !dictionary.TryGetValue(key, out var ret) ? defaultValue : ret;
+        }
     }
 }
