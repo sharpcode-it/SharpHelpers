@@ -156,21 +156,84 @@ namespace SharpCoding.SharpHelpers
             return substr;
         }
 
+        public static string StripHtmlTags(string source)
+        {
+            if (string.IsNullOrEmpty(source))
+            {
+                return string.Empty;
+            }
+
+            var array = new char[source.Length];
+            int arrayIndex = 0;
+            bool inside = false;
+            for (int i = 0; i < source.Length; i++)
+            {
+                char let = source[i];
+                if (let == '<')
+                {
+                    inside = true;
+                    continue;
+                }
+
+                if (let == '>')
+                {
+                    inside = false;
+                    continue;
+                }
+
+                if (!inside)
+                {
+                    array[arrayIndex] = let;
+                    arrayIndex++;
+                }
+            }
+
+            return new string(array, 0, arrayIndex);
+        }
+
         public static string Truncate(this string istance, int maxLength, string suffix = "...")
         {
             if (string.IsNullOrEmpty(istance)) return string.Empty;
 
             var temStr = istance;
 
-            var minValue = Math.Min(temStr.Length, maxLength);
+            var tagRegex = new Regex(@"<[^>]+>");
+            var hasTags = tagRegex.IsMatch(istance);
 
-            if (temStr.Length <= minValue) return temStr;
+            var cleanLenght = hasTags ? temStr.StripHtml().Length : temStr.Length;
 
-            var myTempStr = temStr.Substring(0, minValue).TrimEnd();
+            var diff = temStr.Length - cleanLenght;
 
-            var firstSpaceFromRight = myTempStr.LastIndexOf(" ", StringComparison.OrdinalIgnoreCase);
+            var minValue = Math.Min(cleanLenght, maxLength);
 
-            return myTempStr.Substring(0, firstSpaceFromRight) + suffix;
+            if (cleanLenght <= minValue) return temStr;
+
+            var myTempStr = temStr.Substring(0, minValue + diff).TrimEnd();
+
+            hasTags = tagRegex.IsMatch(myTempStr);
+
+            int firstSpaceFromRight;
+
+            if (hasTags)
+            {
+                var indexOfTruncateTag = myTempStr.LastIndexOf(">", StringComparison.OrdinalIgnoreCase)+1;
+                var indexOfTruncate = myTempStr.LastIndexOf(" ", StringComparison.OrdinalIgnoreCase);
+                firstSpaceFromRight = Math.Max(indexOfTruncateTag, indexOfTruncate);
+            }
+            else
+            {
+                firstSpaceFromRight = myTempStr.LastIndexOf(" ", StringComparison.OrdinalIgnoreCase);
+            }
+
+            var outcome = myTempStr.Substring(0, firstSpaceFromRight) + suffix;
+
+            if(hasTags && (outcome.Length-suffix.Length)>maxLength+diff)
+                return myTempStr.Truncate(maxLength, suffix);
+
+            if (!hasTags && outcome.Length-suffix.Length > maxLength)
+                return myTempStr.Truncate(maxLength, suffix);
+
+            return outcome;
         }
 
         /// <summary>
