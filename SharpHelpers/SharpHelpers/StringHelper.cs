@@ -156,6 +156,14 @@ namespace SharpCoding.SharpHelpers
             return substr;
         }
 
+        public static string ReplaceNotAsciiChar(this string input)
+        {
+            return input.Replace("’", "'").Replace("“", "\"")
+                .Replace("”", "\"")
+                .Replace("\r", "")
+                .Replace("\n", " ");
+        }
+
         public static string StripHtmlTags(string source)
         {
             if (string.IsNullOrEmpty(source))
