@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Xml;
 
 namespace SharpCoding.SharpHelpers
 {
@@ -397,13 +398,14 @@ namespace SharpCoding.SharpHelpers
         /// </summary>
         /// <param name="input"></param>
         /// <param name="mode">CleanTextMode option: AllHtmlTags/ScriptTags/None</param>
+        /// <param name="htmlTagsPermitted"></param>
         /// <exception cref="T:System.ArgumentOutOfRangeException">Thrown when a not supported value is passed for <paramref name="mode"/></exception>  
         /// <returns>Cleared string</returns>
-        public static string CleanText(this string input, CleanTextMode mode)
+        public static string CleanText(this string input, CleanTextMode mode, params string[] htmlTagsPermitted)
         {
             return mode switch
             {
-                CleanTextMode.AllHtmlTags => input.StripHtml(),
+                CleanTextMode.AllHtmlTags => input.StripHtml(htmlTagsPermitted),
                 CleanTextMode.ScriptTagx => input.RemoveScriptTag(),
                 CleanTextMode.None => input,
                 _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null)
