@@ -16,4 +16,7 @@
     <ProjectReference Include="..\SharpHelpers\SharpHelpers.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DataTable\" />
+  </ItemGroup>
 </Project>
