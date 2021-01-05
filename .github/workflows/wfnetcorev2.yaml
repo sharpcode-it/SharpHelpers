@@ -75,7 +75,7 @@ jobs:
         run: |
           for f in ./SharpHelpers/SharpHelpers/bin/Release/*.nupkg
           do
-            curl -vX PUT -u "$GITHUB_USER:$GITHUB_TOKEN" -F package=@$f $GITHUB_FEED
+            curl --silent --show-error --fail -vX PUT -u "$GITHUB_USER:$GITHUB_TOKEN" -F package=@$f $GITHUB_FEED
           done
   deploy:
     needs: build
