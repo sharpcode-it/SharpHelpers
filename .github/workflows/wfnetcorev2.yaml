@@ -73,7 +73,7 @@ jobs:
           name: nupkg
       - name: Push to GitHub Feed
         run: |
-          for f in ./SharpHelpers/nupkg/*.nupkg
+          for f in ./nupkg/*.nupkg
           do
             echo $f
             curl --silent --show-error --fail -vX PUT -u "$GITHUB_USER:$GITHUB_TOKEN" -F package=@$f $GITHUB_FEED
