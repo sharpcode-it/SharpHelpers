@@ -55,6 +55,7 @@ jobs:
       run: |
           for f in ./SharpHelpers/SharpHelpers/bin/Release/*.nupkg
           do
+            echo @$f
             curl --silent --show-error --fail -vX PUT -u "iscifoni:${{ secrets.GITHUB_TOKEN }}" -F package=@$f https://nuget.pkg.github.com/shaprcode-it/
             if [ $? -eq 0 ]
             then
