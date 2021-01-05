@@ -42,9 +42,9 @@ jobs:
         uses: roryprimrose/rungitversion@v1.0.0
         with:
           # "true" to use GitVersion /nofetch, any other value to enable fetch
-          nofetch: true # default is false
+          nofetch: false # default is false
           # "true" to use GitVersion /nocache, any other value to enable cache
-          nocache: true # default is false
+          nocache: false # default is false
       - name: Restore
         run: dotnet restore ./SharpHelpers/SharpHelpers.sln
       - name: Build
