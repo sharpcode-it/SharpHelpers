@@ -6,7 +6,6 @@ on:
     types:
       - published
 env:
-  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
   # Stop wasting time caching packages
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   # Disable sending usage data to Microsoft
@@ -43,7 +42,7 @@ jobs:
           versionSpec: '5.1.x'
       - name: Use GitVersion
         id: gitversion # step id used as reference for output values
-        uses: gittools/actions/gitversion/execute@v0.9
+        uses: gittools/actions/gitversion/execute@v0.9.7
       - run: |
           echo "NuGetVersionV2: ${{ steps.gitversion.outputs.nuGetVersionV2 }}"
           echo "NuGetPreReleaseTagV2: ${{ steps.gitversion.outputs.CommitsSinceVersionSourcePadded }}"
