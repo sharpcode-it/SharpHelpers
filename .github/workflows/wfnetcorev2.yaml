@@ -37,9 +37,9 @@ jobs:
         with:
           dotnet-version: 2.2.402
       - name: Restore
-        run: dotnet restore
+        run: dotnet restore ./SharpHelpers/SharpHelpers.sln
       - name: Build
-        run: dotnet build -c Release --no-restore
+        run: dotnet build -c Release --no-restore ./SharpHelpers/SharpHelpers.sln
       - name: Test
         run: dotnet test -c Release
       - name: Pack
