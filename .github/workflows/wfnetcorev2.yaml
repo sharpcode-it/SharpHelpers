@@ -52,7 +52,7 @@ jobs:
       - name: Build
         run: dotnet build -c Release --no-restore ./SharpHelpers/SharpHelpers.sln
       - name: Test
-        run: dotnet test -c Release
+        run: dotnet test -c Release ./SharpHelpers/SharpHelpers.sln
       - name: Pack
         if: matrix.os == 'ubuntu-latest'
         run: dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=${{ steps.gitversion.outputs.nuGetVersionV2 }}-${{ steps.gitversion.outputs.CommitsSinceVersionSourcePadded }}
