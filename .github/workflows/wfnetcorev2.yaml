@@ -79,7 +79,7 @@ jobs:
           done
   deploy:
     needs: build
-    if: github.event_name == 'release'
+    if: github.event_name == 'release' && startsWith(github.ref, 'refs/heads/v')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
