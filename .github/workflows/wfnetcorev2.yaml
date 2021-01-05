@@ -28,7 +28,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - run: git fetch --all
+      - run: it fetch --unshallow
       - name: Setup .NET Core 3.1
         uses: actions/setup-dotnet@v1
         with:
