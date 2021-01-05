@@ -55,7 +55,7 @@ jobs:
         run: dotnet test ./SharpHelpers/SharpHelpers.sln -c Release --no-build
       - name: Pack
         if: matrix.os == 'ubuntu-latest'
-        run: dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=${{ steps.gitversion.outputs.nuGetVersionV2 }}-${{ steps.gitversion.outputs.CommitsSinceVersionSourcePadded }} ./SharpHelpers/SharpHelpers.sln
+        run: dotnet pack -v normal -c Release --no-restore --include-symbols --include-source --no-build -p:PackageVersion=${{ steps.gitversion.outputs.nuGetVersionV2 }}-${{ steps.gitversion.outputs.CommitsSinceVersionSourcePadded }} ./SharpHelpers/SharpHelpers.sln
       - name: Upload Artifact
         if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v2
