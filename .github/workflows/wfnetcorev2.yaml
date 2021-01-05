@@ -29,13 +29,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Setup .NET Core 3.1
-		  uses: actions/setup-dotnet@v1
-		  with:
-			dotnet-version: 3.1.100
-		- name: Setup .NET Core 2.2
-		  uses: actions/setup-dotnet@v1
-		  with:
-			dotnet-version: 2.2.402 
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.100
+      - name: Setup .NET Core 2.2
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 2.2.402
       - name: Restore
         run: dotnet restore
       - name: Build
