@@ -9,7 +9,7 @@ env:
   # Stop wasting time caching packages
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   # Disable sending usage data to Microsoft
-  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  #DOTNET_CLI_TELEMETRY_OPTOUT: true
   # Project name to pack and publish
   PROJECT_NAME: Giraffe
   # GitHub Packages Feed settings
