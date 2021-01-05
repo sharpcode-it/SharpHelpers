@@ -36,6 +36,15 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 2.2.402
+      - name: Run GitVersion
+        # You may pin to the exact commit or the version.
+        # uses: roryprimrose/rungitversion@80f02b02c55975abac3836750542fe3d596c2cf4
+        uses: roryprimrose/rungitversion@v1.0.0
+        with:
+          # "true" to use GitVersion /nofetch, any other value to enable fetch
+          nofetch: true # default is false
+          # "true" to use GitVersion /nocache, any other value to enable cache
+          nocache: true # default is false
       - name: Restore
         run: dotnet restore ./SharpHelpers/SharpHelpers.sln
       - name: Build
