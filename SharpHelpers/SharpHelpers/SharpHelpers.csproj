@@ -38,5 +38,4 @@
   <ItemGroup>
     <Compile Remove="RegistryHelpers.cs" />
   </ItemGroup>
-
 </Project>
