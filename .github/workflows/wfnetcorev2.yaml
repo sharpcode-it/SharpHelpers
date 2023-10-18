@@ -80,7 +80,7 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R
       - name: Publish the package to GitHub
-        run: dotnet nuget push ./nupkg/*.nupkg
+        run: dotnet nuget push *.nupkg
   deploy:
     needs: build
     if: github.event_name == 'release' && startsWith(github.ref, 'refs/heads/v')
