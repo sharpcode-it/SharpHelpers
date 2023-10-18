@@ -27,7 +27,7 @@ jobs:
         os: [ ubuntu-latest, windows-latest ]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - run: git fetch --unshallow
       - name: Setup .NET Core 3.1
         uses: actions/setup-dotnet@v3
@@ -64,7 +64,7 @@ jobs:
         run: dotnet pack -v normal -c Release --no-restore --no-build -p:PackageVersion=${{ steps.gitversion.outputs.nuGetVersionV2 }}-${{ steps.gitversion.outputs.CommitsSinceVersionSourcePadded }} ./SharpHelpers/SharpHelpers.sln
       - name: Upload Artifact
         if: matrix.os == 'ubuntu-latest'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: nupkg
           path: ./SharpHelpers/${{ env.PROJECT_NAME }}/bin/Release/*.nupkg
@@ -80,13 +80,13 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R
       - name: Publish the package to GitHub
-        run: dotnet nuget push *.nupkg
+        run: dotnet nuget push "*.nupkg"
   deploy:
     needs: build
     if: github.event_name == 'release' && startsWith(github.ref, 'refs/heads/v')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v3
         with:
