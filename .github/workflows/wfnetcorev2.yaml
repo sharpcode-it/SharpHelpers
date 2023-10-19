@@ -87,6 +87,8 @@ jobs:
           # source-url: https://nuget.pkg.github.com/shaprcode-it/index.json
       - name: Add Github feed
         run: dotnet nuget add source --username iscifoni --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/shaprcode-it/index.json"
+      - name: Add Github feed
+        run: dotnet nuget add source --username iscifoni --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github2 "https://nuget.HOSTNAME/NAMESPACE/index.json"
       - name: List sources
         run: dotnet nuget list source
       - name: List sources
