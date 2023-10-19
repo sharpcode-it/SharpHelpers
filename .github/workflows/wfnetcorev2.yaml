@@ -92,7 +92,7 @@ jobs:
       - name: List sources
         run: dotnet --info
       - name: Publish the package to GitHub
-        run: dotnet nuget push "*.nupkg" --source "github" --api-key ${{ secrets.GITHUB_TOKEN }}
+        run: dotnet nuget push "*.nupkg" --source "github" --api-key ${{ secrets.NUGET_APIKEY  }}
   deploy:
     needs: build
     if: github.event_name == 'release' && startsWith(github.ref, 'refs/heads/v')
