@@ -115,7 +115,7 @@ jobs:
       - name: Push to GitHub Feed
         run: |
           for f in ./nupkg/*.nupkg
-          do
+          do 
             curl -vX PUT -u "$GITHUB_USER:$GITHUB_TOKEN" -F package=@$f $GITHUB_FEED
           done
       - name: Push to NuGet Feed
