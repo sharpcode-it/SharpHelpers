@@ -87,14 +87,12 @@ jobs:
           # source-url: https://nuget.pkg.github.com/shaprcode-it/index.json
       - name: Add Github feed
         run: dotnet nuget add source --username iscifoni --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/shaprcode-it/index.json"
-      - name: Add Github feed
-        run: dotnet nuget add source --username iscifoni --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github2 "https://nuget.HOSTNAME/NAMESPACE/index.json"
       - name: List sources
         run: dotnet nuget list source
       - name: List sources
         run: dotnet --info
       - name: Publish the package to GitHub
-        run: dotnet nuget push "*.nupkg" --source "github"
+        run: dotnet nuget push "*.nupkg" --source "github" --api-key "${{ secrets.GITHUB_TOKEN }}"
   deploy:
     needs: build
     if: github.event_name == 'release' && startsWith(github.ref, 'refs/heads/v')
