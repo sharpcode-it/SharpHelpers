@@ -79,8 +79,15 @@ jobs:
           name: nupkg
       - name: Display structure of downloaded files
         run: ls -R
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.x
+          source-url: https://nuget.pkg.github.com/shaprcode-it/index.json
       - name: List sources
         run: dotnet nuget list source
+      - name: List sources
+        run: dotnet --info
       - name: Publish the package to GitHub
         run: dotnet nuget push "*.nupkg"
   deploy:
