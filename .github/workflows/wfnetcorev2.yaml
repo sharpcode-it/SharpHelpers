@@ -19,6 +19,7 @@ env:
   # Official NuGet Feed settings
   NUGET_FEED: https://api.nuget.org/v3/index.json
   NUGET_KEY: ${{ secrets.NUGET_TOKEN }}
+  
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -83,13 +84,15 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 7.x
-          source-url: https://nuget.pkg.github.com/shaprcode-it/index.json
+          # source-url: https://nuget.pkg.github.com/shaprcode-it/index.json
+      - name: Add Github feed
+        run: dotnet nuget add source --username ${{GITHUB_USER}} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/shaprcode-it/index.json"
       - name: List sources
         run: dotnet nuget list source
       - name: List sources
         run: dotnet --info
       - name: Publish the package to GitHub
-        run: dotnet nuget push "*.nupkg"
+        run: dotnet nuget push "*.nupkg" --source "github"
   deploy:
     needs: build
     if: github.event_name == 'release' && startsWith(github.ref, 'refs/heads/v')
