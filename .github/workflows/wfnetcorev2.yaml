@@ -79,6 +79,8 @@ jobs:
           name: nupkg
       - name: Display structure of downloaded files
         run: ls -R
+      - name: List sources
+        run: dotnet nuget list source
       - name: Publish the package to GitHub
         run: dotnet nuget push "*.nupkg"
   deploy:
