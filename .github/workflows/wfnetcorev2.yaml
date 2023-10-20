@@ -100,7 +100,8 @@ jobs:
         run: dotnet nuget push "*.nupkg" --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" --api-key ${{ secrets.GITHUB_TOKEN }}
   deploy:
     needs: build
-    if: github.event_name == 'release' && startsWith(github.ref, 'refs/heads/v')
+    if: github.event_name == 'release' 
+    #|| startsWith(github.ref, 'refs/heads/v')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
