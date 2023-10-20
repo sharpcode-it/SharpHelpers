@@ -2,7 +2,7 @@
  
 |Version|Status|
 |:-:|:-:|
-|Develop|![.NET Core](https://github.com/sharpcode-it/SharpHelpers/workflows/.NET%20Core/badge.svg?branch=develop)|
+|Develop|[![.NET Core V2](https://github.com/sharpcode-it/SharpHelpers/actions/workflows/wfnetcorev2.yaml/badge.svg?branch=develop)](https://github.com/sharpcode-it/SharpHelpers/actions/workflows/wfnetcorev2.yaml)|
 |Master|![.NET Core](https://github.com/sharpcode-it/SharpHelpers/workflows/.NET%20Core/badge.svg?branch=master)|
 |v1.0|![.NET Core](https://github.com/sharpcode-it/SharpHelpers/workflows/.NET%20Core/badge.svg?branch=v1.0)|
 

@@ -16,6 +16,7 @@ env:
   GITHUB_FEED: https://nuget.pkg.github.com/shaprcode-it/
   GITHUB_USER: iscifoni
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  PERSONAL_TOKEN: ${{ secrets.PACKAGESTOKEN }}
   # Official NuGet Feed settings
   NUGET_FEED: https://api.nuget.org/v3/index.json
   NUGET_KEY: ${{ secrets.NUGET_TOKEN }}
@@ -27,16 +28,22 @@ jobs:
         os: [ ubuntu-latest, windows-latest ]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - run: git fetch --unshallow
       - name: Setup .NET Core 3.1
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 3.1.100
+          source-url: https://nuget.pkg.github.com/shaprcode-it/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: Setup .NET Core 2.2
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 2.2.402
+          source-url: https://nuget.pkg.github.com/shaprcode-it/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0
         with:
@@ -58,7 +65,7 @@ jobs:
         run: dotnet pack -v normal -c Release --no-restore --no-build -p:PackageVersion=${{ steps.gitversion.outputs.nuGetVersionV2 }}-${{ steps.gitversion.outputs.CommitsSinceVersionSourcePadded }} ./SharpHelpers/SharpHelpers.sln
       - name: Upload Artifact
         if: matrix.os == 'ubuntu-latest'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: nupkg
           path: ./SharpHelpers/${{ env.PROJECT_NAME }}/bin/Release/*.nupkg
@@ -66,28 +73,42 @@ jobs:
     needs: build
     if: github.ref == 'refs/heads/develop'
     runs-on: ubuntu-latest
+    permissions: write-all
     steps:
       - name: Download Artifact
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v3
         with:
           name: nupkg
-      - name: Push to GitHub Feed
-        run: |
-          for f in ./nupkg/*.nupkg
-          do
-            echo $f
-            curl --silent --show-error --fail -vX PUT -u "$GITHUB_USER:$GITHUB_TOKEN" -F package=@$f $GITHUB_FEED
-          done
+      - name: Display structure of downloaded files
+        run: ls -R
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.x
+          # source-url: https://nuget.pkg.github.com/shaprcode-it/index.json
+#      - name: Add Github feed
+#        run: dotnet nuget add source --username iscifoni --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/shaprcode-it/index.json"
+#      - name: List sources
+#        run: dotnet nuget list source
+#      - name: Push to GitHub Feed
+#        run: |
+#          for f in *.nupkg
+#          do 
+#            curl -vX PUT -u "$GITHUB_USER:$GITHUB_TOKEN" -F package=@$f $GITHUB_FEED
+#          done
+      - name: Publish the package to GitHub
+        run: dotnet nuget push "*.nupkg" --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" --api-key ${{ secrets.GITHUB_TOKEN }}
   deploy:
     needs: build
     if: github.event_name == 'release' && startsWith(github.ref, 'refs/heads/v')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup .NET Core
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 5.0.100
+          dotnet-version: 7.x
+          source-url: https://nuget.pkg.github.com/shaprcode-it/index.json
       - name: Create Release NuGet package
         run: |
           arrTag=(${GITHUB_REF//\// })
@@ -96,11 +117,13 @@ jobs:
           VERSION="${VERSION//v}"
           echo Clean Version: $VERSION
           dotnet pack -v normal -c Release --include-symbols --include-source -p:PackageVersion=$VERSION -o nupkg src/$PROJECT_NAME/$PROJECT_NAME.*proj
-      - name: Push to GitHub Feed
-        run: |
-          for f in ./nupkg/*.nupkg
-          do
-            curl -vX PUT -u "$GITHUB_USER:$GITHUB_TOKEN" -F package=@$f $GITHUB_FEED
-          done
+#      - name: Push to GitHub Feed
+#        run: |
+#          for f in ./nupkg/*.nupkg
+#          do 
+#            curl -vX PUT -u "$GITHUB_USER:$GITHUB_TOKEN" -F package=@$f $GITHUB_FEED
+#          done
+      - name: Publish the package to GitHub
+        run: dotnet nuget push "*.nupkg" --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" --api-key ${{ secrets.GITHUB_TOKEN }}
       - name: Push to NuGet Feed
         run: dotnet nuget push ./nupkg/*.nupkg --source $NUGET_FEED --skip-duplicate --api-key $NUGET_KEY
