@@ -110,6 +110,8 @@ jobs:
         with:
           dotnet-version: 7.x
           source-url: https://nuget.pkg.github.com/shaprcode-it/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: Create Release NuGet package
         run: |
           arrTag=(${GITHUB_REF//\// })
