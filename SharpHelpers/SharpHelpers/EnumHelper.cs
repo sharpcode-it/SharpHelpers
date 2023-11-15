@@ -15,8 +15,8 @@ namespace SharpCoding.SharpHelpers
         /// <returns></returns>
         public static string GetDescription(this Enum value)
         {
-            var description = GetAttribute<DescriptionAttribute>(value);
-            return description?.Description;
+            var description = GetAttribute<DescriptionAttribute>(value)?.Description;
+            return string.IsNullOrEmpty(description) ? value.ToString() : description;
         }
 
         /// <summary>
