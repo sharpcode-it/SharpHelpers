@@ -148,5 +148,125 @@ namespace SharpCoding.SharpHelpers
             }
             return splitList;
         }
+
+        /// <summary>
+        /// Check if the list is null or empty.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static bool IsNullOrEmpty<T>(this IEnumerable<T> source)
+        {
+            return source == null || !source.Any();
+        }
+
+        /// <summary>
+        /// Apply an action to each element of the list.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="action"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (action == null) throw new ArgumentNullException(nameof(action));
+
+            foreach (var item in source)
+            {
+                action(item);
+            }
+        }
+
+        /// <summary>
+        /// Chunk the list into sublists of the specified size.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static IEnumerable<IEnumerable<T>> ChunkBy<T>(this IEnumerable<T> source, int size)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (size <= 0) throw new ArgumentOutOfRangeException(nameof(size), "La dimensione deve essere maggiore di zero.");
+
+            return source.Select((x, i) => new { Index = i, Value = x })
+                         .GroupBy(x => x.Index / size)
+                         .Select(g => g.Select(x => x.Value));
+        }
+
+        /// <summary>
+        /// Get a random element from the list.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
+        public static T RandomElement<T>(this IEnumerable<T> source)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            var list = source.ToList();
+
+            if (list.Count == 0)
+                throw new InvalidOperationException("La sequenza non contiene elementi.");
+
+            Random rng = new Random();
+            int index = rng.Next(list.Count);
+            return list[index];
+        }
+
+        /// <summary>
+        /// Check if all elements in the list are distinct.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static bool AllDistinct<T>(this IEnumerable<T> source)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
+            var seen = new HashSet<T>();
+            foreach (var item in source)
+            {
+                if (!seen.Add(item))
+                    return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Shuffle the list.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
+            Random rng = new Random();
+            return source.OrderBy(_ => rng.Next());
+        }
+
+        /// <summary>
+        /// Sum the elements of the list.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="selector"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static int Sum<T>(this IEnumerable<T> source, Func<T, int> selector)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (selector == null) throw new ArgumentNullException(nameof(selector));
+
+            return source.Select(selector).Sum();
+        }
     }
 }
