@@ -97,5 +97,63 @@ namespace SharpCoding.SharpHelpers
         {
             return dt.Ticks >= rangeBeg.Ticks && dt.Ticks <= rangeEnd.Ticks;
         }
+
+        /// <summary>
+        /// Check if a day is a weekend.
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static bool IsWeekend(this DateTime dateTime)
+        {
+            return dateTime.DayOfWeek == DayOfWeek.Saturday || dateTime.DayOfWeek == DayOfWeek.Sunday;
+        }
+
+        /// <summary>
+        /// Add business days to a DateTime.
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <param name="businessDays"></param>
+        /// <returns></returns>
+        public static DateTime AddBusinessDays(this DateTime dateTime, int businessDays)
+        {
+            if (businessDays == 0)
+                return dateTime;
+
+            int direction = businessDays > 0 ? 1 : -1;
+            int daysToAdd = Math.Abs(businessDays);
+
+            while (daysToAdd > 0)
+            {
+                dateTime = dateTime.AddDays(direction);
+                if (!dateTime.IsWeekend())
+                    daysToAdd--;
+            }
+
+            return dateTime;
+        }
+
+        /// <summary>
+        /// Return the age of a person.
+        /// </summary>
+        /// <param name="birthDate"></param>
+        /// <returns></returns>
+        public static int Age(this DateTime birthDate)
+        {
+            var today = DateTime.Today;
+            var age = today.Year - birthDate.Year;
+            if (birthDate.Date > today.AddYears(-age)) age--;
+            return age;
+        }
+
+        /// <summary>
+        /// Check if the year is a leap year.
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static bool IsLeapYear(this DateTime dateTime)
+        {
+            int year = dateTime.Year;
+            return DateTime.IsLeapYear(year);
+        }
     }
 }
