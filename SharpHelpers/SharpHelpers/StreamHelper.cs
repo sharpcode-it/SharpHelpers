@@ -107,10 +107,7 @@ namespace SharpCoding.SharpHelpers
         /// <returns></returns>
         public static Stream FromArray(this byte[] arrayToConvert)
         {
-            var stream = new MemoryStream(arrayToConvert.Length);
-            stream.Write(arrayToConvert, 0, arrayToConvert.Length);
-            stream.Position = 0;
-            return stream;
+            return new MemoryStream(arrayToConvert, writable: false);
         }
 
         /// <summary>
