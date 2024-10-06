@@ -121,7 +121,7 @@ namespace SharpCoding.SharpHelpers
         /// <returns></returns>
         public static bool ToFile(this Stream stream, string fileName)
         {
-            return ToFile(stream, fileName, true, Encoding.Default);
+            return ToFile(stream, fileName, true);
         }
 
         /// <summary>
@@ -133,43 +133,25 @@ namespace SharpCoding.SharpHelpers
         /// <returns>True if successful</returns>
         public static bool ToFile(this Stream stream, string fileName, bool overrideExisting)
         {
-            return ToFile(stream, fileName, overrideExisting, Encoding.Default);
-        }
-
-        /// <summary>
-        /// Writes a stream to file
-        /// </summary>
-        /// <param name="stream"></param>
-        /// <param name="fileName"></param>
-        /// <param name="overrideExisting"></param>
-        /// <param name="encoding"></param>
-        /// <returns></returns>
-        public static bool ToFile(this Stream stream, string fileName, bool overrideExisting, Encoding encoding)
-        {
-            //Check if the sepcified file exists
-            if (File.Exists(fileName))
-                if (overrideExisting)
-                    File.Delete(fileName);
-                else
-                    throw new AccessViolationException("File already exists");
-
             try
             {
-                //Create the file if it does not exist and open it
-                stream.Position = 0;
-                using (var fileStream = new FileStream(fileName, FileMode.CreateNew, FileAccess.ReadWrite))
+                if (File.Exists(fileName))
                 {
-                    var reader = new BinaryReader(stream);
-                    var writer = new BinaryWriter(fileStream, encoding);
-                    writer.Write(reader.ReadBytes((int)stream.Length));
-                    writer.Flush();
-                    writer.Close();
-                    reader.Close();
-                    fileStream.Close();
-                    return true;
+                    if (overrideExisting)
+                        File.Delete(fileName);
+                    else
+                        throw new IOException("File already exists");
                 }
+
+                stream.Position = 0;
+                using (var fileStream = new FileStream(fileName, FileMode.CreateNew, FileAccess.Write))
+                {
+                    stream.CopyTo(fileStream);
+                }
+
+                return true;
             }
-            catch
+            catch (IOException)
             {
                 return false;
             }
