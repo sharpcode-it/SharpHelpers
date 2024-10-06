@@ -180,14 +180,9 @@ namespace SharpCoding.SharpHelpers
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        public static Stream FromFile(string fileName)
+        public static Stream FromFile(this string fileName)
         {
-            var fileStream = File.OpenRead(fileName);
-            var fileLength = (int)fileStream.Length;
-            var fileBytes = new byte[fileLength];
-            fileStream.Read(fileBytes, 0, fileLength);
-            fileStream.Close();
-            fileStream.Dispose();
+            byte[] fileBytes = File.ReadAllBytes(fileName);
             return FromArray(fileBytes);
         }
     }
