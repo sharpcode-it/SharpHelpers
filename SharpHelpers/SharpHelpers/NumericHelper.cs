@@ -128,5 +128,64 @@ namespace SharpCoding.SharpHelpers
         {
             return Math.Abs(number);
         }
+
+        /// <summary>
+        /// Checks if the integer is divisible by a specified divisor.
+        /// </summary>
+        /// <param name="number">The number to check.</param>
+        /// <param name="divisor">The divisor.</param>
+        /// <returns>True if divisible; otherwise, false.</returns>
+        public static bool IsDivisibleBy(this int number, int divisor)
+        {
+            if (divisor == 0) throw new DivideByZeroException("Divisor cannot be zero.");
+            return number % divisor == 0;
+        }
+
+        /// <summary>
+        /// Calculates the percentage this number represents of a total.
+        /// </summary>
+        /// <param name="number">The partial value.</param>
+        /// <param name="total">The total value.</param>
+        /// <returns>The percentage as a double.</returns>
+        public static double ToPercentageOf(this int number, int total)
+        {
+            if (total == 0) throw new DivideByZeroException("Total cannot be zero.");
+            return (double)number / total * 100;
+        }
+
+        /// <summary>
+        /// Checks whether the integer is within the specified inclusive range.
+        /// </summary>
+        /// <param name="number">The number to check.</param>
+        /// <param name="min">The minimum bound.</param>
+        /// <param name="max">The maximum bound.</param>
+        /// <returns>True if within range; otherwise, false.</returns>
+        public static bool IsInRange(this int number, int min, int max)
+        {
+            return number >= min && number <= max;
+        }
+
+        /// <summary>
+        /// Returns the next multiple of the specified factor greater than or equal to the number.
+        /// </summary>
+        /// <param name="number">The base number.</param>
+        /// <param name="factor">The factor.</param>
+        /// <returns>The next multiple of the factor.</returns>
+        public static int NextMultipleOf(this int number, int factor)
+        {
+            if (factor == 0) throw new ArgumentException("Factor cannot be zero.");
+            int remainder = number % factor;
+            return remainder == 0 ? number : number + (factor - remainder);
+        }
+
+        /// <summary>
+        /// Checks whether the integer is a power of two.
+        /// </summary>
+        /// <param name="number">The number to check.</param>
+        /// <returns>True if the number is a power of two; otherwise, false.</returns>
+        public static bool IsPowerOfTwo(this int number)
+        {
+            return number > 0 && (number & (number - 1)) == 0;
+        }
     }
 }
