@@ -121,5 +121,75 @@ namespace SharpCoding.SharpHelpers
             }
             return "{" + string.Join(", ", entries) + "}";
         }
+
+        /// <summary>
+        /// Returns the value associated with the specified key, or the default value if the key does not exist.
+        /// </summary>
+        /// <param name="dictionary">The dictionary to query.</param>
+        /// <param name="key">The key to look for.</param>
+        /// <returns>The value associated with the key, or default if not found.</returns>
+        public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
+        {
+            return dictionary.TryGetValue(key, out var value) ? value : default;
+        }
+
+        /// <summary>
+        /// Checks whether all specified keys exist in the dictionary.
+        /// </summary>
+        /// <param name="dictionary">The dictionary to check.</param>
+        /// <param name="keys">The keys to check for existence.</param>
+        /// <returns>True if all keys exist; otherwise, false.</returns>
+        public static bool ContainsAllKeys<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, IEnumerable<TKey> keys)
+        {
+            return keys.All(k => dictionary.ContainsKey(k));
+        }
+
+        /// <summary>
+        /// Tries to get the value associated with the key and cast it to the specified type.
+        /// </summary>
+        /// <typeparam name="TKey">The key type.</typeparam>
+        /// <typeparam name="TValue">The stored value type.</typeparam>
+        /// <typeparam name="TResult">The desired result type.</typeparam>
+        /// <param name="dictionary">The dictionary to query.</param>
+        /// <param name="key">The key to retrieve.</param>
+        /// <param name="result">The casted result if successful; otherwise, default.</param>
+        /// <returns>True if the cast was successful; otherwise, false.</returns>
+        public static bool TryGetValueAs<TKey, TValue, TResult>(this IDictionary<TKey, TValue> dictionary, TKey key, out TResult result)
+        {
+            result = default;
+            if (dictionary.TryGetValue(key, out var value) && value is TResult casted)
+            {
+                result = casted;
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Increments the value associated with the specified key by a given amount. If the key does not exist, it is added with the amount as its value.
+        /// </summary>
+        /// <param name="dictionary">The dictionary to operate on.</param>
+        /// <param name="key">The key whose value to increment.</param>
+        /// <param name="amount">The amount to increment by.</param>
+        public static void IncrementValue<TKey>(this IDictionary<TKey, int> dictionary, TKey key, int amount = 1)
+        {
+            if (dictionary.ContainsKey(key))
+                dictionary[key] += amount;
+            else
+                dictionary[key] = amount;
+        }
+
+        /// <summary>
+        /// Adds multiple key-value pairs to the dictionary. If a key already exists, it is updated with the new value.
+        /// </summary>
+        /// <param name="dictionary">The dictionary to update.</param>
+        /// <param name="items">The key-value pairs to add or update.</param>
+        public static void AddRange<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, IEnumerable<KeyValuePair<TKey, TValue>> items)
+        {
+            foreach (var kvp in items)
+            {
+                dictionary[kvp.Key] = kvp.Value;
+            }
+        }
     }
 }
