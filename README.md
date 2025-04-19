@@ -2,6 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Nuget](https://img.shields.io/nuget/v/SharpHelpers?style=plastic)](https://www.nuget.org/packages/SharpHelpers)
+![NuGet Downloads](https://img.shields.io/nuget/dt/SharpHelpers)
 [![issues - SharpHelpers](https://img.shields.io/github/issues/sharpcode-it/SharpHelpers)](https://github.com/sharpcode-it/SharpHelpers/issues)
 [![stars - SharpHelpers](https://img.shields.io/github/stars/sharpcode-it/SharpHelpers?style=social)](https://github.com/sharpcode-it/SharpHelpers)
  
