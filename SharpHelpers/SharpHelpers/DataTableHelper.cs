@@ -115,30 +115,50 @@ namespace SharpCoding.SharpHelpers
         public static DataTable MergeTables(IEnumerable<DataTable> tables)
         {
             if (tables == null) throw new ArgumentNullException(nameof(tables));
+            var list = tables.Where(t => t != null).ToList();
+            if (list.Count == 0) throw new ArgumentException("No tables.");
 
-            var resultTable = tables.First().Clone();
-            foreach (var table in tables)
+            var result = list[0].Clone();
+            foreach (var t in list)
             {
-                if (!AreSchemasCompatible(resultTable, table))
+                if (!AreSchemasCompatible(result, t))
                     throw new ArgumentException("Tables have incompatible schemas.");
-
-                foreach (DataRow row in table.Rows)
+                foreach (DataRow r in t.Rows)
                 {
-                    resultTable.ImportRow(row);
+                    result.ImportRow(r);
                 }
             }
-            return resultTable;
+
+            return result;
         }
 
-        private static bool AreSchemasCompatible(DataTable table1, DataTable table2)
+        /// <summary>
+        /// Determines whether two <see cref="DataTable"/> instances have compatible schemas
+        /// for position-based operations (e.g., cloning and row import).
+        /// </summary>
+        /// <param name="table1">
+        /// The first table whose schema is used as the reference (column order matters).
+        /// </param>
+        /// <param name="table2">
+        /// The second table to compare against <paramref name="table1"/>.
+        /// </param>
+        /// <returns>
+        /// <c>true</c> if both tables have the same number of columns and, at each position,
+        /// the column name matches (case-insensitive) and the <see cref="Type"/> matches;
+        /// otherwise, <c>false</c>.
+        /// </returns>
+        /// <remarks>
+        /// This check is strictly positional: it does not attempt to realign columns by name.
+        /// Extended properties, nullability metadata, constraints, and keys are not compared.
+        /// </remarks>
+        private static bool AreSchemasCompatible(DataTable a, DataTable b)
         {
-            if (table1.Columns.Count != table2.Columns.Count) return false;
-
-            for (int i = 0; i < table1.Columns.Count; i++)
+            if (a.Columns.Count != b.Columns.Count) return false;
+            for (int i = 0; i < a.Columns.Count; i++)
             {
-                if (table1.Columns[i].ColumnName != table2.Columns[i].ColumnName ||
-                    table1.Columns[i].DataType != table2.Columns[i].DataType)
-                    return false;
+                var ca = a.Columns[i]; var cb = b.Columns[i];
+                if (!ca.ColumnName.Equals(cb.ColumnName, StringComparison.OrdinalIgnoreCase)) return false;
+                if (ca.DataType != cb.DataType) return false;
             }
             return true;
         }
