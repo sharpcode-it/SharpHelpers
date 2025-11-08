@@ -87,15 +87,22 @@ namespace SharpCoding.SharpHelpers
         /// <param name="columnName"></param>
         /// <param name="defaultValue"></param>
         /// <typeparam name="T"></typeparam>
-        public static void AddColumn<T>(this DataTable table, string columnName, T defaultValue = default)
+        public static void AddColumn<T>(this DataTable table, string columnName, T defaultValue = default!)
         {
             if (table == null) throw new ArgumentNullException(nameof(table));
+            if (string.IsNullOrWhiteSpace(columnName)) throw new ArgumentException("Empty", nameof(columnName));
+            if (table.Columns.Contains(columnName)) 
+                return;
 
-            var column = new DataColumn(columnName, typeof(T)) { DefaultValue = defaultValue };
-            table.Columns.Add(column);
+            var t = Nullable.GetUnderlyingType(typeof(T)) ?? typeof(T);
+            var col = new DataColumn(columnName, t) 
+            { 
+                DefaultValue = defaultValue! 
+            };
+            table.Columns.Add(col);
             foreach (DataRow row in table.Rows)
             {
-                row[columnName] = defaultValue;
+                row[columnName] = defaultValue!;
             }
         }
 
