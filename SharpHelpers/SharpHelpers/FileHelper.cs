@@ -76,28 +76,25 @@ namespace SharpCoding.SharpHelpers
         /// <returns></returns>
         public static bool FileInUse(this string filePath)
         {
-            FileStream stream = null;
+            if (string.IsNullOrWhiteSpace(filePath) || !File.Exists(filePath)) return false;
 
             try
             {
-                var file = new FileInfo(filePath);
-                stream = file.Open(FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+                using (File.Open(filePath, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
+                {
+                    // able to open exclusively ⇒ not in use
+                    return false;
+                }
             }
             catch (IOException)
             {
-                //the file is unavailable because it is:
-                //still being written to
-                //or being processed by another thread
-                //or does not exist (has already been processed)
+                return true; // locked by another process or still being written
+            }
+            catch (UnauthorizedAccessException)
+            {
+                // treat as "in use"/not exclusively openable
                 return true;
             }
-            finally
-            {
-                stream?.Close();
-            }
-
-            //file is not locked
-            return false;
         }
 
         /// <summary>
