@@ -63,17 +63,21 @@ namespace SharpCoding.SharpHelpers
         public static string ToCsv(this DataTable table, string delimiter = ",")
         {
             if (table == null) throw new ArgumentNullException(nameof(table));
-
-            var csv = new List<string>();
-            var headers = string.Join(delimiter, table.Columns.Cast<DataColumn>().Select(c => c.ColumnName));
-            csv.Add(headers);
-
-            foreach (DataRow row in table.Rows)
+            string Escape(string s)
             {
-                var line = string.Join(delimiter, row.ItemArray.Select(field => field?.ToString()));
-                csv.Add(line);
+                if (s == null) return "";
+                bool needQuotes = s.Contains(delimiter) || s.Contains('"') || s.Contains('\n') || s.Contains('\r');
+                if (s.Contains('"')) s = s.Replace("\"", "\"\"");
+                return needQuotes ? $"\"{s}\"" : s;
             }
-            return string.Join(Environment.NewLine, csv);
+
+            var lines = new List<string>(table.Rows.Count + 1)
+            {
+                string.Join(delimiter, table.Columns.Cast<DataColumn>().Select(c => Escape(c.ColumnName)))
+            };
+            foreach (DataRow row in table.Rows)
+                lines.Add(string.Join(delimiter, row.ItemArray.Select(v => Escape(v?.ToString()))));
+            return string.Join(Environment.NewLine, lines);
         }
 
         /// <summary>
